@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import Layout from "../components/Layout";
 import { Box, Typography, Card, CardContent, CardActions, Button, Alert, TextField } from "@mui/material";
 import { useTasks } from "../context/AuthContext";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Home: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -41,12 +42,12 @@ const Home: React.FC = () => {
           size="small"
           sx={{ mb: 3, maxWidth: 300, borderRadius: 3, background: '#fff', '& .MuiOutlinedInput-root': { borderRadius: 3 } }}
         />
-        {tasks.filter(task => !task.isDeleted && task.title.toLowerCase().includes(search.toLowerCase())).length === 0 ? (
+        {tasks.filter(task => !task.isDeleted && !task.isCompleted && task.title.toLowerCase().includes(search.toLowerCase())).length === 0 ? (
           <Typography variant="body1" color="text.secondary">
             No tasks yet. Add a task to get started!
           </Typography>
         ) : (
-          tasks.filter(task => !task.isDeleted && task.title.toLowerCase().includes(search.toLowerCase())).map((task) => (
+          tasks.filter(task => !task.isDeleted && !task.isCompleted && task.title.toLowerCase().includes(search.toLowerCase())).map((task) => (
             <Card key={task.id} sx={{ mb: 2 }}>
               <CardContent>
                 <Typography variant="h6">{task.title}</Typography>
@@ -63,14 +64,24 @@ const Home: React.FC = () => {
               <CardActions>
                 <Button
                   variant="text"
-                  sx={{color:"#F93827", textDecoration:'none'}} 
+                  sx={{color:"#16C47F", textDecoration:'none'}} 
                   onClick={() => {
-                    updateTask(task.id, { isCompleted: true, isDeleted: true });
+                    updateTask(task.id, { isCompleted: true });
+                    navigate("/completed-tasks");
+                  }}
+                >
+                  isComplete
+                </Button>
+                <Button
+                  variant="text"
+                  sx={{color:"#F93827", textDecoration:'none'}}
+                  startIcon={<DeleteIcon />}
+                  onClick={() => {
+                    updateTask(task.id, { isDeleted: true });
                     setMovedToTrash(true);
                     setTimeout(() => setMovedToTrash(false), 2000);
                   }}
                 >
-                  isComplete
                 </Button>
               </CardActions>
             </Card>

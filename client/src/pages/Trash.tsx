@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import Layout from "../components/Layout";
 import { Box, Typography, Card, CardContent, CardActions, Button, Alert } from "@mui/material";
 import { useTasks } from "../context/AuthContext";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Trash: React.FC = () => {
-  const { tasks, restoreTask } = useTasks();
+  const { tasks, restoreTask, deleteTask } = useTasks();
   const [restored, setRestored] = useState(false);
   const deletedTasks = tasks.filter(task => task.isDeleted);
 
@@ -36,12 +37,15 @@ const Trash: React.FC = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button variant="outlined" color="primary" onClick={() => {
+                <Button variant="text" color="primary" onClick={() => {
                   restoreTask(task.id);
                   setRestored(true);
                   setTimeout(() => setRestored(false), 2000);
                 }}>
                   Restore
+                </Button>
+                <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteTask(task.id)}>
+                  Delete Permanently
                 </Button>
               </CardActions>
             </Card>

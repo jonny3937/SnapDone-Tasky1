@@ -1,17 +1,13 @@
 import React, { useState, useRef } from "react";
 import {
   Box,
-  Button,
   Typography,
   Avatar,
   CircularProgress,
   Alert,
   IconButton,
 } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-
 interface AvatarUploadProps {
   onUpload: (url: string) => void;
   currentAvatar?: string;

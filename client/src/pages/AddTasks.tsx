@@ -13,9 +13,9 @@ import {
 import { useTasks } from "../context/AuthContext";
 
 const AddTasks: React.FC = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const { tasks, addTask } = useTasks();
+  const { addTask } = useTasks();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [success, setSuccess] = useState(false);
@@ -63,7 +63,7 @@ const AddTasks: React.FC = () => {
               rows={3}
               fullWidth
             />
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" sx={{backgroundColor:'#1C1678'}} >
               Add Task
             </Button>
           </Stack>

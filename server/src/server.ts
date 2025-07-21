@@ -11,8 +11,6 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://post-it-fullstack.vercel.app",
-      "https://super-centaur-625704.netlify.app",
       "http://localhost:3000",
     ],
     credentials: true,

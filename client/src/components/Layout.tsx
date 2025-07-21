@@ -25,6 +25,7 @@ import {
   Menu as MenuIcon,
   Add as AddIcon,
   Delete as DeleteIcon,
+  CheckCircle as CheckCircleIcon,
 } from "@mui/icons-material";
 
 const drawerWidth = 240;
@@ -50,7 +51,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
 
   const handleNavigation = (page: string) => {
     if (page === "Profile") {
-      navigate("/settings");
+      navigate("/profile");
     } else {
       navigate(`/${page.toLowerCase().replace(' ', '-')}`);
     }
@@ -98,13 +99,13 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
             src={user?.avatar}
             sx={{ width: 64, height: 64, mx: "auto", mb: 1 }}
           >
-            {user?.firstName?.charAt(0) || user?.username?.charAt(0)}
+            {user?.firstName?.charAt(0) || (user?.username ? user.username.charAt(0).toUpperCase() : "")}
           </Avatar>
           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
             {user?.firstName} {user?.lastName}
           </Typography>
           <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
-            {user?.email}
+            {user?.username ? user.username.charAt(0).toUpperCase() + user.username.slice(1) : ""}
           </Typography>
         </Box>
         
@@ -132,6 +133,17 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
                 <AddIcon />
               </ListItemIcon>
               <ListItemText primary="Add Tasks" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton 
+              sx={getButtonStyle("Completed Tasks")}
+              onClick={() => handleNavigation("Completed Tasks")}
+            >
+              <ListItemIcon sx={{ color: "#fff" }}>
+                <CheckCircleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Completed Tasks" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
