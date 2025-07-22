@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { updateUser, updatePassword, updateAvatar } from "../controllers/user.controller";
+import {
+  updateUser,
+  updatePassword,
+  updateAvatar,
+} from "../controllers/user.controller";
 import { authenticateToken } from "../middleware/auth.middleware";
 
 const router = Router();

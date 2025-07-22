@@ -12,8 +12,8 @@ import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { useNavigate } from "react-router-dom";
-import AvatarUpload from "../components/avatar";
 import { useAuth } from "../context/AuthContext";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const SignUp: React.FC = () => {
   const [form, setForm] = useState({
@@ -22,7 +22,6 @@ const SignUp: React.FC = () => {
     username: "",
     email: "",
     password: "",
-    avatar: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,10 +30,6 @@ const SignUp: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleAvatarUpload = (avatarUrl: string) => {
-    setForm({ ...form, avatar: avatarUrl });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,7 +41,6 @@ const SignUp: React.FC = () => {
         username: form.username,
         email: form.email,
         password: form.password,
-        avatar: form.avatar,
         firstName: form.firstName,
         lastName: form.lastName,
       };
@@ -63,14 +57,14 @@ const SignUp: React.FC = () => {
           id: data.user.id,
           username: data.user.username,
           email: data.user.email,
-          avatar: data.user.avatar || "",
           firstName: data.user.firstName,
           lastName: data.user.lastName,
+          avatar: data.user.avatar || "",
         };
-        
+
         localStorage.setItem("token", data.token);
         login(userData);
-        navigate("/login"); 
+        navigate("/login");
       }
     } catch (err) {
       setError("Network error. Please try again.");
@@ -87,8 +81,24 @@ const SignUp: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        position: "relative",
       }}
     >
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: 24,
+          left: 24,
+          zIndex: 10,
+          bgcolor: "green",
+          color: "#fff",
+          "&:hover": { bgcolor: "darkred" },
+        }}
+        onClick={() => navigate("/")}
+        aria-label="Back to landing"
+      >
+        <ArrowBackIcon />
+      </IconButton>
       <Card
         sx={{
           display: "flex",
@@ -117,7 +127,6 @@ const SignUp: React.FC = () => {
             textAlign: "center",
           }}
         >
-          <AvatarUpload onUpload={handleAvatarUpload} />
           <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
             Welcome to SnapDone!
           </Typography>

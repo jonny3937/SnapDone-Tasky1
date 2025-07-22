@@ -8,7 +8,7 @@ import {
   TextField,
   Button,
   Stack,
-  Alert
+  Alert,
 } from "@mui/material";
 import { useTasks } from "../context/AuthContext";
 
@@ -63,7 +63,11 @@ const AddTasks: React.FC = () => {
               rows={3}
               fullWidth
             />
-            <Button type="submit" variant="contained" sx={{backgroundColor:'#1C1678'}} >
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ backgroundColor: "#1C1678" }}
+            >
               Add Task
             </Button>
           </Stack>
@@ -73,4 +77,4 @@ const AddTasks: React.FC = () => {
   );
 };
 
-export default AddTasks; 
+export default AddTasks;

@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout";
-import { Box, Typography, Card, CardContent, CardActions, Button, Alert } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Alert,
+} from "@mui/material";
 import { useTasks } from "../context/AuthContext";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Trash: React.FC = () => {
   const { tasks, restoreTask, deleteTask } = useTasks();
   const [restored, setRestored] = useState(false);
-  const deletedTasks = tasks.filter(task => task.isDeleted);
+  const deletedTasks = tasks.filter((task) => task.isDeleted);
 
   return (
     <Layout currentPage="Trash">
@@ -37,14 +45,23 @@ const Trash: React.FC = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button variant="text" color="primary" onClick={() => {
-                  restoreTask(task.id);
-                  setRestored(true);
-                  setTimeout(() => setRestored(false), 2000);
-                }}>
+                <Button
+                  variant="text"
+                  color="primary"
+                  onClick={() => {
+                    restoreTask(task.id);
+                    setRestored(true);
+                    setTimeout(() => setRestored(false), 2000);
+                  }}
+                >
                   Restore
                 </Button>
-                <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => deleteTask(task.id)}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => deleteTask(task.id)}
+                >
                   Delete Permanently
                 </Button>
               </CardActions>
@@ -56,4 +73,4 @@ const Trash: React.FC = () => {
   );
 };
 
-export default Trash; 
+export default Trash;

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
 
 interface User {
   id: string;
@@ -22,7 +22,12 @@ export interface Task {
 
 interface TaskContextType {
   tasks: Task[];
-  addTask: (task: Omit<Task, 'id' | 'dateCreated' | 'lastUpdated' | 'isDeleted' | 'isCompleted'>) => void;
+  addTask: (
+    task: Omit<
+      Task,
+      "id" | "dateCreated" | "lastUpdated" | "isDeleted" | "isCompleted"
+    >,
+  ) => void;
   updateTask: (id: number, updates: Partial<Task>) => void;
   restoreTask: (id: number) => void;
   deleteTask: (id: number) => void;
@@ -33,7 +38,7 @@ const TaskContext = createContext<TaskContextType | undefined>(undefined);
 export const useTasks = () => {
   const context = useContext(TaskContext);
   if (context === undefined) {
-    throw new Error('useTasks must be used within a TaskProvider');
+    throw new Error("useTasks must be used within a TaskProvider");
   }
   return context;
 };
@@ -52,7 +57,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -65,37 +70,37 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
-    
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
+
     if (token && userData) {
       try {
         const parsedUser = JSON.parse(userData);
         setUser(parsedUser);
       } catch (error) {
-        console.error('Error parsing user data:', error);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        console.error("Error parsing user data:", error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
       }
     }
   }, []);
 
   const login = (userData: User) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   const updateAvatar = (avatarUrl: string) => {
     if (user) {
       const updatedUser = { ...user, avatar: avatarUrl };
       setUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      localStorage.setItem("user", JSON.stringify(updatedUser));
     }
   };
 
@@ -103,7 +108,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (user) {
       const updatedUser = { ...user, ...userData };
       setUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      localStorage.setItem("user", JSON.stringify(updatedUser));
     }
   };
 
@@ -116,24 +121,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated: !!user,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-}; 
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
-export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const TaskProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [tasks, setTasks] = useState<Task[]>(() => {
-    const saved = localStorage.getItem('tasks');
+    const saved = localStorage.getItem("tasks");
     return saved ? JSON.parse(saved) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (task: Omit<Task, 'id' | 'dateCreated' | 'lastUpdated' | 'isDeleted' | 'isCompleted'>) => {
+  const addTask = (
+    task: Omit<
+      Task,
+      "id" | "dateCreated" | "lastUpdated" | "isDeleted" | "isCompleted"
+    >,
+  ) => {
     const now = new Date().toISOString();
     setTasks((prev) => [
       ...prev,
@@ -160,18 +168,18 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               isDeleted:
                 updates.isCompleted === true && task.isCompleted === true
                   ? true
-                  : updates.isDeleted ?? task.isDeleted,
+                  : (updates.isDeleted ?? task.isDeleted),
             }
-          : task
-      )
+          : task,
+      ),
     );
   };
 
   const restoreTask = (id: number) => {
     setTasks((prev) =>
       prev.map((task) =>
-        task.id === id ? { ...task, isDeleted: false } : task
-      )
+        task.id === id ? { ...task, isDeleted: false } : task,
+      ),
     );
   };
 
@@ -180,8 +188,10 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <TaskContext.Provider value={{ tasks, addTask, updateTask, restoreTask, deleteTask }}>
+    <TaskContext.Provider
+      value={{ tasks, addTask, updateTask, restoreTask, deleteTask }}
+    >
       {children}
     </TaskContext.Provider>
   );
-}; 
+};

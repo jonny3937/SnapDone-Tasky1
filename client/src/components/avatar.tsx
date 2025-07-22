@@ -16,7 +16,9 @@ interface AvatarUploadProps {
 const AvatarUpload = ({ onUpload, currentAvatar }: AvatarUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(currentAvatar || null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    currentAvatar || null,
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const uploadImage = async (image: File) => {
@@ -71,8 +73,6 @@ const AvatarUpload = ({ onUpload, currentAvatar }: AvatarUploadProps) => {
     }
   };
 
-
-
   const handleRemoveAvatar = () => {
     setPreviewUrl(null);
     onUpload("");
@@ -86,7 +86,7 @@ const AvatarUpload = ({ onUpload, currentAvatar }: AvatarUploadProps) => {
       <Typography variant="subtitle2" sx={{ mb: 2, color: "#eee" }}>
         Profile Picture
       </Typography>
-      
+
       <Box
         sx={{
           display: "flex",
@@ -149,9 +149,17 @@ const AvatarUpload = ({ onUpload, currentAvatar }: AvatarUploadProps) => {
           onChange={handleFileChange}
           style={{ display: "none" }}
         />
-        
+
         {loading && (
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1, mt: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 1,
+              mt: 2,
+            }}
+          >
             <CircularProgress size={24} sx={{ color: "#5CB338" }} />
             <Typography variant="body2" sx={{ color: "#eee" }}>
               Uploading...
@@ -169,4 +177,4 @@ const AvatarUpload = ({ onUpload, currentAvatar }: AvatarUploadProps) => {
   );
 };
 
-export default AvatarUpload; 
+export default AvatarUpload;

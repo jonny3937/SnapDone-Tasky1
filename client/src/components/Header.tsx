@@ -42,27 +42,29 @@ const Header: React.FC = () => {
   };
 
   return (
-  <AppBar
-    position="static"
-    color="transparent"
-    elevation={0}
-    sx={{ background: "rgba(255,255,255,0.95)" }}
-  >
-    <Toolbar sx={{ justifyContent: "space-between" }}>
-      <Box display="flex" alignItems="center">
-        <CheckCircleOutlineIcon
-          sx={{ color: "#1cb5e0", fontSize: 32, mr: 1 }}
-        />
-        <Typography variant="h5" sx={{ color: "#000000", fontWeight: 700 }}>
-          SnapDone
-        </Typography>
-      </Box>
+    <AppBar
+      position="static"
+      color="transparent"
+      elevation={0}
+      sx={{ background: "rgba(255,255,255,0.95)" }}
+    >
+      <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Box display="flex" alignItems="center">
+          <CheckCircleOutlineIcon
+            sx={{ color: "#1cb5e0", fontSize: 32, mr: 1 }}
+          />
+          <Typography variant="h5" sx={{ color: "#000000", fontWeight: 700 }}>
+            SnapDone
+          </Typography>
+        </Box>
 
-      {location.pathname !== "/" && (
         <Box display="flex" gap={2} alignItems="center">
           {isAuthenticated ? (
             <>
-              <Typography variant="body2" sx={{ color: "#000000", fontWeight: 600 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "#000000", fontWeight: 600 }}
+              >
                 Welcome, {user?.firstName || user?.username}!
               </Typography>
               <IconButton
@@ -98,17 +100,17 @@ const Header: React.FC = () => {
               >
                 <MenuItem onClick={handleProfile}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Avatar
-                      src={user?.avatar}
-                      sx={{ width: 32, height: 32 }}
-                    >
+                    <Avatar src={user?.avatar} sx={{ width: 32, height: 32 }}>
                       {!user?.avatar && <AccountCircleIcon />}
                     </Avatar>
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: 600 }}>
                         {user?.firstName} {user?.lastName}
                       </Typography>
-                      <Typography variant="caption" sx={{ color: "text.secondary" }}>
+                      <Typography
+                        variant="caption"
+                        sx={{ color: "text.secondary" }}
+                      >
                         {user?.email}
                       </Typography>
                     </Box>
@@ -136,7 +138,11 @@ const Header: React.FC = () => {
               </Button>
               <Button
                 variant="outlined"
-                sx={{ color: "#1cb5e0", borderColor: "#1cb5e0", fontWeight: 700 }}
+                sx={{
+                  color: "#1cb5e0",
+                  borderColor: "#1cb5e0",
+                  fontWeight: 700,
+                }}
                 onClick={() => navigate("/login")}
               >
                 LOG IN
@@ -144,9 +150,8 @@ const Header: React.FC = () => {
             </>
           )}
         </Box>
-      )}
-    </Toolbar>
-  </AppBar>
+      </Toolbar>
+    </AppBar>
   );
 };
 

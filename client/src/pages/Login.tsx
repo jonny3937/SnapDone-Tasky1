@@ -6,14 +6,23 @@ import {
   TextField,
   Typography,
   Stack,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Login: React.FC = () => {
   const [form, setForm] = useState({ user: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [forgotOpen, setForgotOpen] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotStatus, setForgotStatus] = useState<string | null>(null);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -46,7 +55,7 @@ const Login: React.FC = () => {
           firstName: data.user.firstName,
           lastName: data.user.lastName,
         };
-        
+
         localStorage.setItem("token", data.token);
         login(userData);
         navigate("/dashboard");
@@ -66,18 +75,34 @@ const Login: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        position: "relative",
       }}
     >
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: 24,
+          left: 24,
+          zIndex: 10,
+          bgcolor: "green",
+          color: "#fff",
+          "&:hover": { bgcolor: "darkred" },
+        }}
+        onClick={() => navigate("/")}
+        aria-label="Back to landing"
+      >
+        <ArrowBackIcon />
+      </IconButton>
       <Card
         sx={{
-            background:"linear-gradient(135deg,rgb(31, 13, 99) 0%,rgb(37, 43, 53) 100%)",
+          background:
+            "linear-gradient(135deg,rgb(31, 13, 99) 0%,rgb(37, 43, 53) 100%)",
           borderRadius: 5,
           boxShadow: 6,
           minWidth: 340,
           maxWidth: 400,
           width: "100%",
           p: { xs: 3, md: 5 },
-          
         }}
       >
         <Typography
@@ -142,6 +167,23 @@ const Login: React.FC = () => {
                 "& .MuiInputLabel-root": { color: "#fff" },
               }}
             />
+            <Button
+              variant="text"
+              sx={{
+                color: "#5CB338",
+                alignSelf: "flex-end",
+                mt: -2,
+                mb: 1,
+                fontWeight: 700,
+              }}
+              onClick={() => {
+                setForgotOpen(true);
+                setForgotStatus(null);
+                setForgotEmail("");
+              }}
+            >
+              Forgot Password?
+            </Button>
           </Stack>
           <Button
             type="submit"
@@ -165,6 +207,58 @@ const Login: React.FC = () => {
           </Button>
         </Box>
       </Card>
+      <Dialog open={forgotOpen} onClose={() => setForgotOpen(false)}>
+        <DialogTitle>Reset Password</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            type="email"
+            fullWidth
+            value={forgotEmail}
+            onChange={(e) => setForgotEmail(e.target.value)}
+          />
+          {forgotStatus && (
+            <Typography
+              sx={{ mt: 2 }}
+              color={forgotStatus.startsWith("Success") ? "green" : "error"}
+            >
+              {forgotStatus}
+            </Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setForgotOpen(false)}>Cancel</Button>
+          <Button
+            onClick={async () => {
+              setForgotStatus(null);
+              try {
+                const res = await fetch("/api/auth/forgot-password", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email: forgotEmail }),
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                  setForgotStatus(
+                    data.message || "Failed to send reset email.",
+                  );
+                } else {
+                  setForgotStatus(
+                    "Success! Please check your email for reset instructions.",
+                  );
+                }
+              } catch (err) {
+                setForgotStatus("Network error. Please try again.");
+              }
+            }}
+            disabled={!forgotEmail}
+          >
+            Send Reset Link
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
