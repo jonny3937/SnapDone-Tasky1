@@ -49,7 +49,7 @@ const Login: React.FC = () => {
         
         localStorage.setItem("token", data.token);
         login(userData);
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (err) {
       setError("Network error. Please try again.");
@@ -161,7 +161,7 @@ const Login: React.FC = () => {
             }}
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Loading..." : "Login"}
           </Button>
         </Box>
       </Card>

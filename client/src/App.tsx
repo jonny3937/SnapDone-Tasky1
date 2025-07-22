@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import CompletedTasks from "./pages/CompletedTasks";
 import Profile from "./pages/Profile";
+import Landing from "./pages/Landing";
 
 const App: React.FC = () => {
   return (
@@ -19,7 +20,7 @@ const App: React.FC = () => {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/dashboard" element={<Home />} />
             <Route path="/add-tasks" element={<AddTasks />} />
             <Route path="/completed-tasks" element={<CompletedTasks />} />

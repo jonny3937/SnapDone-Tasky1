@@ -42,7 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/Landing");
   };
 
   const toggleSidebar = () => {
