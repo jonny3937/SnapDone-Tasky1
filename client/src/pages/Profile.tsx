@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Layout from "../components/Layout";
 import { Box, Typography, Avatar, Paper, TextField, Button, Stack, Alert, Divider } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
 
 const Profile: React.FC = () => {
   const { user, isAuthenticated, updateUser } = useAuth();
@@ -101,15 +102,13 @@ const Profile: React.FC = () => {
             </Stack>
           ) : (
             <>
-              <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                {user.firstName} {user.lastName}
-              </Typography>
+          
               <Typography variant="subtitle1" sx={{ color: "#666", mb: 1 }}>
                 @{user.username}
               </Typography>
               <Typography variant="body1">{user.email}</Typography>
-              <Button variant="outlined" sx={{ mt: 2 }} onClick={() => setEditMode(true)}>
-                Edit Profile
+              <Button variant="outlined" sx={{ mt: 2, bgcolor:'#e2e2dbff' }} onClick={() => setEditMode(true)}  startIcon={<EditIcon />}>
+              edit
               </Button>
               {feedback && <Alert severity="success" sx={{ mt: 2 }}>{feedback}</Alert>}
             </>
@@ -139,7 +138,7 @@ const Profile: React.FC = () => {
             />
             {pwError && <Alert severity="error">{pwError}</Alert>}
             {pwFeedback && <Alert severity="success">{pwFeedback}</Alert>}
-            <Button variant="contained" color="primary" onClick={handlePwChange}>
+            <Button variant="contained"sx={{bgcolor:'#1C1678'}} onClick={handlePwChange}>
               Change Password
             </Button>
           </Stack>

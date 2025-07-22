@@ -18,7 +18,7 @@ import { useAuth } from "../context/AuthContext";
 const SignUp: React.FC = () => {
   const [form, setForm] = useState({
     firstName: "",
-    LastName: "",
+    lastName: "",
     username: "",
     email: "",
     password: "",
@@ -47,6 +47,8 @@ const SignUp: React.FC = () => {
         email: form.email,
         password: form.password,
         avatar: form.avatar,
+        firstName: form.firstName,
+        lastName: form.lastName,
       };
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -211,9 +213,9 @@ const SignUp: React.FC = () => {
               />
               <TextField
                 label="Last Name"
-                name="LastName"
+                name="lastName"
                 type="text"
-                value={form.LastName}
+                value={form.lastName}
                 onChange={handleChange}
                 fullWidth
                 required
