@@ -7,10 +7,9 @@ const prisma = new PrismaClient();
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const { username, email, firstName, lastName } = req.body;
+    const { username, email, firstName, lastName, avatar } = req.body;
     const userId = (req as any).user.userId;
 
-    // Check if username or email already exists
     const existingUser = await prisma.user.findFirst({
       where: {
         OR: [{ email }, { username }],
@@ -24,14 +23,19 @@ export const updateUser = async (req: Request, res: Response) => {
         .json({ message: "Username or email already exists" });
     }
 
+    const updateData: any = {
+      username,
+      email,
+      firstName,
+      lastName,
+    };
+    if (avatar !== undefined) {
+      updateData.avatar = avatar;
+    }
+
     const user = await prisma.user.update({
       where: { id: userId },
-      data: {
-        username,
-        email,
-        firstName,
-        lastName,
-      },
+      data: updateData,
       select: {
         id: true,
         username: true,
@@ -72,7 +76,7 @@ export const updatePassword = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Current password is incorrect" });
     }
 
-    // Check new password strength using zxcvbn
+    
     const passwordStrength = zxcvbn(newPassword);
     if (passwordStrength.score < 2) {
       return res.status(400).json({
@@ -103,6 +107,8 @@ export const updateAvatar = async (req: Request, res: Response) => {
     const { avatar } = req.body;
     const userId = (req as any).user.userId;
 
+    console.log("[updateAvatar] Saving avatar:", avatar, "for user:", userId);
+
     const user = await prisma.user.update({
       where: { id: userId },
       data: { avatar },
@@ -117,6 +123,31 @@ export const updateAvatar = async (req: Request, res: Response) => {
     res.json(user);
   } catch (error) {
     console.error("Update avatar error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getCurrentUser = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user.userId;
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        avatar: true,
+      },
+    });
+    console.log("[getCurrentUser] Returning avatar:", user?.avatar, "for user:", userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error("Get current user error:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

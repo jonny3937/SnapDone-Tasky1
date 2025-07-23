@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+
 const SignUp: React.FC = () => {
   const [form, setForm] = useState({
     firstName: "",

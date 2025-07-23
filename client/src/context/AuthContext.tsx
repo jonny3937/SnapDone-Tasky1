@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
+import { getProfile } from "../services/userService";
 
 interface User {
   id: string;
@@ -71,17 +72,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const userData = localStorage.getItem("user");
-
-    if (token && userData) {
-      try {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-      }
+    if (token) {
+      getProfile(token)
+        .then((profile) => {
+          setUser(profile);
+          localStorage.setItem("user", JSON.stringify(profile));
+        })
+        .catch(() => {
+          setUser(null);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+        });
+    } else {
+      setUser(null);
+      localStorage.removeItem("user");
     }
   }, []);
 

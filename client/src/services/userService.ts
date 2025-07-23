@@ -1,3 +1,5 @@
+import API from "../api/axios";
+
 export const updateUserProfile = async (
   profile: {
     username: string;
@@ -7,17 +9,44 @@ export const updateUserProfile = async (
   },
   token: string,
 ) => {
-  const response = await fetch("/api/users", {
-    method: "PATCH",
+  const response = await API.patch("/api/user", profile, {
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(profile),
   });
-  if (!response.ok) {
-    const error = await response.json();
+  if (response.status !== 200) {
+    const error = response.data;
     throw new Error(error.message || "Failed to update profile");
   }
-  return response.json();
+  return response.data;
+};
+
+export const updateAvatar = async (avatar: string, token: string) => {
+  const response = await API.patch(
+    "/api/user/avatar",
+    { avatar },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  if (response.status !== 200) {
+    const error = response.data;
+    throw new Error(error.message || "Failed to update avatar");
+  }
+  return response.data;
+};
+
+export const getProfile = async (token: string) => {
+  const response = await API.get("/api/user", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (response.status !== 200) {
+    const error = response.data;
+    throw new Error(error.message || "Failed to fetch profile");
+  }
+  return response.data;
 };

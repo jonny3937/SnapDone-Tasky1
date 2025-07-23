@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AvatarUpload from "../components/avatar";
+import { updateAvatar, getProfile, updateUserProfile } from "../services/userService";
 
 const Profile: React.FC = () => {
   const { user, isAuthenticated, updateUser } = useAuth();
@@ -49,19 +50,64 @@ const Profile: React.FC = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleAvatarUpload = (avatarUrl: string) => {
-    setForm({ ...form, avatar: avatarUrl });
+  const handleAvatarUpload = async (avatarUrl: string) => {
+    setForm((prev) => ({ ...prev, avatar: avatarUrl }));
+    try {
+      const token = localStorage.getItem("token");
+      if (token && avatarUrl) {
+        await updateAvatar(avatarUrl, token);
+        // Fetch latest profile and update context
+        const latestProfile = await getProfile(token);
+        updateUser(latestProfile);
+        setForm({
+          firstName: latestProfile.firstName || "",
+          lastName: latestProfile.lastName || "",
+          username: latestProfile.username || "",
+          email: latestProfile.email || "",
+          avatar: latestProfile.avatar || "",
+        });
+        setFeedback("Avatar updated successfully.");
+        setError(null);
+      }
+    } catch (err: any) {
+      setError(err?.message || "Failed to update avatar");
+    }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.username || !form.email) {
       setError("Username and email are required.");
       return;
     }
-    updateUser(form);
-    setFeedback("Profile updated successfully.");
-    setError(null);
-    setEditMode(false);
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await updateUserProfile(
+          {
+            username: form.username,
+            email: form.email,
+            firstName: form.firstName,
+            lastName: form.lastName,
+          },
+          token
+        );
+        // Fetch latest profile and update context
+        const latestProfile = await getProfile(token);
+        updateUser(latestProfile);
+        setForm({
+          firstName: latestProfile.firstName || "",
+          lastName: latestProfile.lastName || "",
+          username: latestProfile.username || "",
+          email: latestProfile.email || "",
+          avatar: latestProfile.avatar || "",
+        });
+        setFeedback("Profile updated successfully.");
+        setError(null);
+        setEditMode(false);
+      }
+    } catch (err: any) {
+      setError(err?.message || "Failed to update profile");
+    }
   };
 
   const handleCancel = () => {
@@ -86,7 +132,6 @@ const Profile: React.FC = () => {
       setPwError("New passwords do not match.");
       return;
     }
-    // Simulate password change (no backend)
     setPwFeedback("Password changed (simulated, no backend). Reset fields.");
     setPwError(null);
     setPwForm({ current: "", new: "", confirm: "" });
