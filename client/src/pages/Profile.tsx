@@ -14,7 +14,16 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AvatarUpload from "../components/avatar";
-import { updateAvatar, getProfile, updateUserProfile } from "../services/userService";
+import { updateAvatar, getProfile } from "../services/userService";
+
+type User = {
+  id: string;
+  username: string;
+  email: string;
+  avatar: string;
+  firstName?: string;
+  lastName?: string;
+};
 
 const Profile: React.FC = () => {
   const { user, isAuthenticated, updateUser } = useAuth();
@@ -57,7 +66,7 @@ const Profile: React.FC = () => {
       if (token && avatarUrl) {
         await updateAvatar(avatarUrl, token);
         // Fetch latest profile and update context
-        const latestProfile = await getProfile(token);
+        const latestProfile = await getProfile(token) as User;
         updateUser(latestProfile);
         setForm({
           firstName: latestProfile.firstName || "",
@@ -82,17 +91,7 @@ const Profile: React.FC = () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        await updateUserProfile(
-          {
-            username: form.username,
-            email: form.email,
-            firstName: form.firstName,
-            lastName: form.lastName,
-          },
-          token
-        );
-        // Fetch latest profile and update context
-        const latestProfile = await getProfile(token);
+        const latestProfile = await getProfile(token) as User;
         updateUser(latestProfile);
         setForm({
           firstName: latestProfile.firstName || "",
