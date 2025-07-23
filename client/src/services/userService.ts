@@ -16,7 +16,7 @@ export const updateUserProfile = async (
   });
   if (response.status !== 200) {
     const error = response.data;
-    throw new Error(error.message || "Failed to update profile");
+    throw new Error((error as any).message || "Failed to update profile");
   }
   return response.data;
 };
@@ -33,7 +33,7 @@ export const updateAvatar = async (avatar: string, token: string) => {
   );
   if (response.status !== 200) {
     const error = response.data;
-    throw new Error(error.message || "Failed to update avatar");
+    throw new Error((error as any).message || "Failed to update avatar");
   }
   return response.data;
 };
@@ -46,7 +46,7 @@ export const getProfile = async (token: string) => {
   });
   if (response.status !== 200) {
     const error = response.data;
-    throw new Error(error.message || "Failed to fetch profile");
+    throw new Error((error as any).message || "Failed to fetch profile");
   }
   return response.data;
 };

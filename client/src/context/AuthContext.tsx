@@ -75,7 +75,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (token) {
       getProfile(token)
         .then((profile) => {
-          setUser(profile);
+          setUser(profile as User);
           localStorage.setItem("user", JSON.stringify(profile));
         })
         .catch(() => {
