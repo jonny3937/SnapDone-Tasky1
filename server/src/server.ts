@@ -11,8 +11,8 @@ const app = express();
 app.use(
   cors({
     origin: [
+      "https://snapdone.netlify.app/",
       "http://localhost:5173", 
-      "http://localhost:3000",
       "https://snapdone-tasky1.onrender.com", 
     ],
     credentials: true,
