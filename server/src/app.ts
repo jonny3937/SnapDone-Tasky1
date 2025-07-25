@@ -7,11 +7,8 @@ import userRoutes from "./routes/user.routes";
 const app = express();
 
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'https://snapdone.netlify.app'
-  ],
+  origin: 'https://snapdone.netlify.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 app.use(express.json());
