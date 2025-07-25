@@ -112,34 +112,40 @@ const SignUp: React.FC = () => {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
-          borderRadius: 5,
-          boxShadow: 6,
-          minWidth: 340,
-          maxWidth: 800,
+          borderRadius: { xs: 2, sm: 3, md: 5 },
+          boxShadow: {
+            xs: 2,
+            sm: 4,
+            md: 6
+          },
+          minWidth: { xs: 240, sm: 300, md: 340 },
+          maxWidth: { xs: 340, sm: 480, md: 800 },
           width: "100%",
         }}
       >
         <Box
           sx={{
             flex: 1,
-            minWidth: 260,
+            minWidth: { xs: 120, sm: 180, md: 260 },
             background:
               "linear-gradient(135deg,rgb(31, 13, 99) 0%,rgb(37, 43, 53) 100%)",
             color: "#fff",
-            borderTopLeftRadius: 20,
-            borderBottomLeftRadius: 20,
+            borderTopLeftRadius: { xs: 8, sm: 12, md: 20 },
+            borderBottomLeftRadius: { xs: 8, sm: 12, md: 20 },
+            borderTopRightRadius: { xs: 8, sm: 0, md: 0 },
+            borderBottomRightRadius: { xs: 8, sm: 0, md: 0 },
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            p: 4,
+            p: { xs: 2, sm: 3, md: 4 },
             textAlign: "center",
           }}
         >
-          <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, fontSize: { xs: "1.1rem", sm: "1.3rem", md: "1.5rem" } }}>
             Welcome to SnapDone!
           </Typography>
-          <Typography sx={{ mb: 4, color: "rgba(255,255,255,0.85)" }}>
+          <Typography sx={{ mb: 4, color: "rgba(255,255,255,0.85)", fontSize: { xs: "0.95rem", sm: "1.05rem", md: "1.1rem" } }}>
             Enter your personal details to use all of site features
           </Typography>
           <Button
@@ -149,8 +155,10 @@ const SignUp: React.FC = () => {
               color: "#fff",
               borderColor: "#fff",
               borderRadius: 2,
-              px: 5,
+              px: { xs: 3, sm: 5 },
               fontWeight: 700,
+              fontSize: { xs: 14, sm: 16 },
+              minWidth: { xs: 100, sm: 120 },
               "&:hover": { bgcolor: "#5CB338" },
             }}
             onClick={() => navigate("/login")}
@@ -161,21 +169,23 @@ const SignUp: React.FC = () => {
         <Box
           sx={{
             flex: 1.2,
-            minWidth: 300,
+            minWidth: { xs: 160, sm: 220, md: 300 },
             background:
               "linear-gradient(135deg,rgb(37, 43, 53) 0%,rgb(31, 13, 99) 100%)",
-            borderTopRightRadius: 20,
-            borderBottomRightRadius: 20,
+            borderTopRightRadius: { xs: 8, sm: 12, md: 20 },
+            borderBottomRightRadius: { xs: 8, sm: 12, md: 20 },
+            borderTopLeftRadius: { xs: 8, sm: 0, md: 0 },
+            borderBottomLeftRadius: { xs: 8, sm: 0, md: 0 },
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            p: { xs: 3, md: 5 },
+            p: { xs: 2, sm: 3, md: 5 },
           }}
         >
           <Typography
             variant="h5"
-            sx={{ fontWeight: 700, mb: 2, color: "#eee" }}
+            sx={{ fontWeight: 700, mb: 2, color: "#eee", fontSize: { xs: "1.1rem", sm: "1.3rem", md: "1.5rem" } }}
           >
             Create Account
           </Typography>
@@ -190,7 +200,7 @@ const SignUp: React.FC = () => {
               <LinkedInIcon />
             </IconButton>
           </Stack>
-          <Typography sx={{ color: "#eee", fontSize: 14, mb: 2 }}>
+          <Typography sx={{ color: "#eee", fontSize: { xs: 12, sm: 14 }, mb: 2 }}>
             Use your email or Username for registration
           </Typography>
           <Box
@@ -337,10 +347,12 @@ const SignUp: React.FC = () => {
                 color: "#fff",
                 fontWeight: 700,
                 borderRadius: 2,
-                py: 1,
-                fontSize: 16,
-                px: 4,
-                ml: "30%",
+                py: { xs: 0.8, sm: 1 },
+                fontSize: { xs: 15, sm: 16 },
+                px: { xs: 2.5, sm: 4 },
+                mt: 1,
+                mx: "auto",
+                display: "block",
                 "&:hover": { background: "#49a09d" },
                 alignSelf: "center",
               }}

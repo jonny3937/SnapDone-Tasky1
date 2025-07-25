@@ -39,6 +39,8 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [forgotOpen, setForgotOpen] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotNewPassword, setForgotNewPassword] = useState("");
+  const [forgotConfirmPassword, setForgotConfirmPassword] = useState("");
   const [forgotStatus, setForgotStatus] = useState<string | null>(null);
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -192,6 +194,8 @@ const Login: React.FC = () => {
                 setForgotOpen(true);
                 setForgotStatus(null);
                 setForgotEmail("");
+                setForgotNewPassword("");
+                setForgotConfirmPassword("");
               }}
             >
               Forgot Password?
@@ -231,6 +235,24 @@ const Login: React.FC = () => {
             value={forgotEmail}
             onChange={(e) => setForgotEmail(e.target.value)}
           />
+          <TextField
+            margin="dense"
+            label="New Password"
+            type="password"
+            fullWidth
+            value={forgotNewPassword}
+            onChange={(e) => setForgotNewPassword(e.target.value)}
+            sx={{ mt: 2 }}
+          />
+          <TextField
+            margin="dense"
+            label="Confirm New Password"
+            type="password"
+            fullWidth
+            value={forgotConfirmPassword}
+            onChange={(e) => setForgotConfirmPassword(e.target.value)}
+            sx={{ mt: 2 }}
+          />
           {forgotStatus && (
             <Typography
               sx={{ mt: 2 }}
@@ -246,11 +268,18 @@ const Login: React.FC = () => {
             onClick={async () => {
               setForgotStatus(null);
               try {
-                const res = await API.post<ForgotPasswordResponse>('/api/auth/forgot-password', { email: forgotEmail });
+                const res = await API.post<ForgotPasswordResponse>(
+                  '/api/auth/reset-password',
+                  {
+                    email: forgotEmail,
+                    newPassword: forgotNewPassword,
+                    confirmPassword: forgotConfirmPassword,
+                  }
+                );
                 if (res.data && res.data.message) {
-                  setForgotStatus("Success! Please check your email for reset instructions.");
+                  setForgotStatus("Success! Your password has been reset. You can now log in.");
                 } else {
-                  setForgotStatus("Success! Please check your email for reset instructions.");
+                  setForgotStatus("Success! Your password has been reset. You can now log in.");
                 }
               } catch (err: any) {
                 if (
@@ -265,9 +294,11 @@ const Login: React.FC = () => {
                 }
               }
             }}
-            disabled={!forgotEmail}
+            disabled={
+              !forgotEmail || !forgotNewPassword || !forgotConfirmPassword
+            }
           >
-            Send Reset Link
+            Reset Password
           </Button>
         </DialogActions>
       </Dialog>

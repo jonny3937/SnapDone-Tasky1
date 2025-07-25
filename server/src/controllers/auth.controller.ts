@@ -125,3 +125,36 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const resetPassword = async (req: Request, res: Response) => {
+  try {
+    const { email, newPassword, confirmPassword } = req.body;
+    if (!email || !newPassword || !confirmPassword) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match." });
+    }
+    const passwordStrength = zxcvbn(newPassword);
+    if (passwordStrength.score < 2) {
+      return res.status(400).json({
+        message: "Password is too weak. Please choose a stronger password.",
+        suggestions: passwordStrength.feedback.suggestions,
+        warning: passwordStrength.feedback.warning,
+      });
+    }
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ message: "User with this email not found." });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await prisma.user.update({
+      where: { email },
+      data: { password: hashedPassword },
+    });
+    res.json({ message: "Password reset successfully." });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
