@@ -45,7 +45,8 @@ const SignUp: React.FC = () => {
         firstName: form.firstName,
         lastName: form.lastName,
       };
-      const res = await fetch("/api/auth/register", {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL;
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

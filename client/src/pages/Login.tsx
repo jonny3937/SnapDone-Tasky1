@@ -25,6 +25,7 @@ const Login: React.FC = () => {
   const [forgotStatus, setForgotStatus] = useState<string | null>(null);
   const navigate = useNavigate();
   const { login } = useAuth();
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -38,7 +39,7 @@ const Login: React.FC = () => {
       const payload = form.user.includes("@")
         ? { email: form.user, password: form.password }
         : { username: form.user, password: form.password };
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -234,7 +235,7 @@ const Login: React.FC = () => {
             onClick={async () => {
               setForgotStatus(null);
               try {
-                const res = await fetch("/api/auth/forgot-password", {
+                const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ email: forgotEmail }),
