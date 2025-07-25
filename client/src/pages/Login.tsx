@@ -15,6 +15,23 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import API from '../api/axios';
+
+type LoginResponse = {
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    avatar?: string;
+    firstName: string;
+    lastName: string;
+  };
+  token: string;
+};
+
+type ForgotPasswordResponse = {
+  message: string;
+};
 
 const Login: React.FC = () => {
   const [form, setForm] = useState({ user: "", password: "" });
@@ -25,7 +42,6 @@ const Login: React.FC = () => {
   const [forgotStatus, setForgotStatus] = useState<string | null>(null);
   const navigate = useNavigate();
   const { login } = useAuth();
-  const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,30 +55,25 @@ const Login: React.FC = () => {
       const payload = form.user.includes("@")
         ? { email: form.user, password: form.password }
         : { username: form.user, password: form.password };
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.message || "Login failed");
+      const res = await API.post<LoginResponse>('/api/auth/login', payload);
+      const data = res.data;
+      const userData = {
+        id: data.user.id,
+        username: data.user.username,
+        email: data.user.email,
+        avatar: data.user.avatar || "",
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+      };
+      localStorage.setItem("token", data.token);
+      login(userData);
+      navigate("/dashboard");
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
       } else {
-        const userData = {
-          id: data.user.id,
-          username: data.user.username,
-          email: data.user.email,
-          avatar: data.user.avatar || "",
-          firstName: data.user.firstName,
-          lastName: data.user.lastName,
-        };
-
-        localStorage.setItem("token", data.token);
-        login(userData);
-        navigate("/dashboard");
+        setError("Network error. Please try again.");
       }
-    } catch (err) {
-      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -235,23 +246,23 @@ const Login: React.FC = () => {
             onClick={async () => {
               setForgotStatus(null);
               try {
-                const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ email: forgotEmail }),
-                });
-                const data = await res.json();
-                if (!res.ok) {
-                  setForgotStatus(
-                    data.message || "Failed to send reset email.",
-                  );
+                const res = await API.post<ForgotPasswordResponse>('/api/auth/forgot-password', { email: forgotEmail });
+                if (res.data && res.data.message) {
+                  setForgotStatus("Success! Please check your email for reset instructions.");
                 } else {
-                  setForgotStatus(
-                    "Success! Please check your email for reset instructions.",
-                  );
+                  setForgotStatus("Success! Please check your email for reset instructions.");
                 }
-              } catch (err) {
-                setForgotStatus("Network error. Please try again.");
+              } catch (err: any) {
+                if (
+                  err.response &&
+                  err.response.data &&
+                  typeof err.response.data === 'object' &&
+                  'message' in err.response.data
+                ) {
+                  setForgotStatus((err.response.data as { message: string }).message);
+                } else {
+                  setForgotStatus("Network error. Please try again.");
+                }
               }
             }}
             disabled={!forgotEmail}

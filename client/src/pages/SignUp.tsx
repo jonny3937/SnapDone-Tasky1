@@ -14,7 +14,20 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import API from '../api/axios';
 
+
+type RegisterResponse = {
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    avatar?: string;
+    firstName: string;
+    lastName: string;
+  };
+  token: string;
+};
 
 const SignUp: React.FC = () => {
   const [form, setForm] = useState({
@@ -45,31 +58,25 @@ const SignUp: React.FC = () => {
         firstName: form.firstName,
         lastName: form.lastName,
       };
-      const API_BASE = import.meta.env.VITE_API_BASE_URL;
-      const res = await fetch(`${API_BASE}/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.message || "Registration failed");
+      const res = await API.post<RegisterResponse>('/api/auth/register', payload);
+      const data = res.data;
+      const userData = {
+        id: data.user.id,
+        username: data.user.username,
+        email: data.user.email,
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+        avatar: data.user.avatar || "",
+      };
+      localStorage.setItem("token", data.token);
+      login(userData);
+      navigate("/login");
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
       } else {
-        const userData = {
-          id: data.user.id,
-          username: data.user.username,
-          email: data.user.email,
-          firstName: data.user.firstName,
-          lastName: data.user.lastName,
-          avatar: data.user.avatar || "",
-        };
-
-        localStorage.setItem("token", data.token);
-        login(userData);
-        navigate("/login");
+        setError("Network error. Please try again.");
       }
-    } catch (err) {
-      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
