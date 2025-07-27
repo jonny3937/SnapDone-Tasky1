@@ -1,26 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import Layout from "../components/Layout";
 import {
-  Box,
   Typography,
+  Box,
   Card,
   CardContent,
   CardActions,
   Button,
-  Alert,
   TextField,
+  Collapse,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Alert,
+  Stack,
 } from "@mui/material";
-import { useTasks } from "../context/AuthContext";
-import type { Task } from "../context/AuthContext";
-import DeleteIcon from "@mui/icons-material/Delete";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useTasks, Task } from "../context/AuthContext";
 
 const Home: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -46,201 +48,134 @@ const Home: React.FC = () => {
     return null;
   }
 
+  const handleExpandClick = (taskId: number) => {
+    setExpandedTaskId(expandedTaskId === taskId ? null : taskId);
+  };
+
+  const handleEditClick = (task: Task) => {
+    setEditTask(task);
+    setEditTitle(task.title);
+    setEditDescription(task.description);
+    setEditOpen(true);
+  };
+
+  const handleEditSave = () => {
+    if (editTask) {
+      updateTask(editTask.id, { title: editTitle, description: editDescription });
+      setEditOpen(false);
+      setEditTask(null);
+    }
+  };
+
+  const handleDeleteClick = (task: Task) => {
+    setTaskToDelete(task);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (taskToDelete) {
+      updateTask(taskToDelete.id, { isDeleted: true });
+      setMovedToTrash(true);
+      setTimeout(() => setMovedToTrash(false), 2000);
+      setDeleteDialogOpen(false);
+      setTaskToDelete(null);
+    }
+  };
+
+  const filteredTasks = tasks.filter(
+    (task) =>
+      !task.isDeleted &&
+      (task.title.toLowerCase().includes(search.toLowerCase()) ||
+        task.description.toLowerCase().includes(search.toLowerCase()))
+  );
+
   return (
     <Layout currentPage="Dashboard">
       <Box sx={{ p: 3, maxWidth: 800, mx: "auto" }}>
-        {movedToTrash && (
-          <Alert severity="info" sx={{ mb: 3 }}>
-            Moved to trash
-          </Alert>
-        )}
         <Typography variant="h4" sx={{ mb: 3, color: "#333" }}>
-          Dashboard
+          My Tasks
         </Typography>
         <TextField
-          label="Search tasks by title"
+          label="Search tasks"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          size="small"
-          sx={{
-            mb: 3,
-            maxWidth: 300,
-            borderRadius: 3,
-            background: "#fff",
-            "& .MuiOutlinedInput-root": { borderRadius: 3 },
-          }}
+          fullWidth
+          sx={{ mb: 3 }}
         />
-        {tasks.filter(
-          (task) =>
-            !task.isDeleted &&
-            !task.isCompleted &&
-            task.title.toLowerCase().includes(search.toLowerCase()),
-        ).length === 0 ? (
-          <Typography variant="body1" color="text.secondary">
-            No tasks yet. Add a task to get started!
-          </Typography>
+        {movedToTrash && <Alert severity="success">Task moved to trash!</Alert>}
+        {filteredTasks.length === 0 ? (
+          <Typography color="text.secondary">No tasks found.</Typography>
         ) : (
-          tasks
-            .filter(
-              (task) =>
-                !task.isDeleted &&
-                !task.isCompleted &&
-                task.title.toLowerCase().includes(search.toLowerCase()),
-            )
-            .map((task) => (
-              <Card
-                key={task.id}
-                sx={{
-                  mb: 2,
-                  transition: "transform 0.2s",
-                  "&:hover": { transform: "scale(1.03)" },
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h6">{task.title}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {expandedTaskId === task.id ||
-                    task.description.split(" ").length <= 20
-                      ? task.description
-                      : `${task.description.split(" ").slice(0, 20).join(" ")}...`}
-                    {task.description.split(" ").length > 20 &&
-                      expandedTaskId !== task.id && (
-                        <Button
-                          size="small"
-                          onClick={() => setExpandedTaskId(task.id)}
-                          sx={{ ml: 1, textTransform: "none", padding: 0 }}
-                        >
-                          Read more
-                        </Button>
-                      )}
-                    {task.description.split(" ").length > 20 &&
-                      expandedTaskId === task.id && (
-                        <Button
-                          size="small"
-                          onClick={() => setExpandedTaskId(null)}
-                          sx={{ ml: 1, textTransform: "none", padding: 0 }}
-                        >
-                          Show less
-                        </Button>
-                      )}
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: "#000000" }}>
-                    Created: {new Date(task.dateCreated).toLocaleString()}
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    sx={{ color: "#000000", ml: 2 }}
-                  >
-                    Last Updated: {new Date(task.lastUpdated).toLocaleString()}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="text"
-                    sx={{ color: "#16C47F", textDecoration: "none" }}
-                    onClick={() => {
-                      updateTask(task.id, { isCompleted: true });
-                      navigate("/completed-tasks");
-                    }}
-                  >
-                    isComplete
-                  </Button>
-                  <Button
-                    variant="text"
-                    sx={{ color: "#1976d2" }}
-                    startIcon={<EditIcon />}
-                    onClick={() => {
-                      setEditTask(task);
-                      setEditTitle(task.title);
-                      setEditDescription(task.description);
-                      setEditOpen(true);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="text"
-                    sx={{ color: "#F93827", textDecoration: "none" }}
-                    startIcon={<DeleteIcon />}
-                    onClick={() => {
-                      setTaskToDelete(task);
-                      setDeleteDialogOpen(true);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </CardActions>
-              </Card>
-            ))
+          filteredTasks.map((task) => (
+            <Card key={task.id} sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="h6">{task.title}</Typography>
+                <Typography color="text.secondary">{task.description}</Typography>
+                <IconButton
+                  onClick={() => handleExpandClick(task.id)}
+                  aria-expanded={expandedTaskId === task.id}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+                <IconButton onClick={() => handleEditClick(task)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => handleDeleteClick(task)}>
+                  <DeleteIcon />
+                </IconButton>
+                <Collapse in={expandedTaskId === task.id} timeout="auto" unmountOnExit>
+                  <Box sx={{ mt: 2 }}>
+                    <Typography variant="body2">Details...</Typography>
+                  </Box>
+                </Collapse>
+              </CardContent>
+            </Card>
+          ))
         )}
+        <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
+          <DialogTitle>Edit Task</DialogTitle>
+          <DialogContent>
+            <TextField
+              label="Title"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              fullWidth
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              label="Description"
+              value={editDescription}
+              onChange={(e) => setEditDescription(e.target.value)}
+              fullWidth
+              multiline
+              rows={3}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleEditSave} color="primary">
+              Save
+            </Button>
+            <Button onClick={() => setEditOpen(false)} color="secondary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+          <DialogTitle>Delete Task</DialogTitle>
+          <DialogContent>
+            <Typography>Are you sure you want to move this task to trash?</Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDeleteConfirm} color="error">
+              Delete
+            </Button>
+            <Button onClick={() => setDeleteDialogOpen(false)} color="secondary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
-      <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
-        <DialogTitle>Edit Task</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Task Title"
-            value={editTitle}
-            onChange={(e) => setEditTitle(e.target.value)}
-            required
-            fullWidth
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Description"
-            value={editDescription}
-            onChange={(e) => setEditDescription(e.target.value)}
-            multiline
-            rows={3}
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setEditOpen(false)} color="secondary">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              if (editTask && editTitle.trim()) {
-                updateTask(editTask.id, {
-                  title: editTitle,
-                  description: editDescription,
-                });
-                setEditOpen(false);
-              }
-            }}
-            variant="contained"
-            color="primary"
-          >
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-      >
-        <DialogTitle>Are you sure you want to delete this task?</DialogTitle>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} color="secondary">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              if (taskToDelete) {
-                updateTask(taskToDelete.id, { isDeleted: true });
-                setMovedToTrash(true);
-                setTimeout(() => setMovedToTrash(false), 2000);
-              }
-              setDeleteDialogOpen(false);
-              setTaskToDelete(null);
-            }}
-            color="error"
-            variant="contained"
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Layout>
   );
 };

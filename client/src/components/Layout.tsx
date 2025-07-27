@@ -21,7 +21,6 @@ import {
   Logout as LogoutIcon,
   Dashboard as DashboardIcon,
   Person as PersonIcon,
-  Settings as SettingsIcon,
   Menu as MenuIcon,
   Add as AddIcon,
   Delete as DeleteIcon,
@@ -125,7 +124,6 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
 
         <Divider sx={{ borderColor: "rgba(255,255,255,0.2)" }} />
 
-        {/* Navigation Menu */}
         <List sx={{ flexGrow: 1, display: sidebarOpen ? "block" : "none" }}>
           <ListItem disablePadding>
             <ListItemButton
@@ -180,17 +178,6 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="Profile" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={getButtonStyle("Settings")}
-              onClick={() => handleNavigation("Settings")}
-            >
-              <ListItemIcon sx={{ color: "#fff" }}>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
             </ListItemButton>
           </ListItem>
         </List>

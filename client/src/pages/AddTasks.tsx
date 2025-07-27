@@ -38,18 +38,13 @@ const AddTasks: React.FC = () => {
   return (
     <Layout currentPage="Add Tasks">
       <Box sx={{ p: 3, maxWidth: 600, mx: "auto" }}>
-        {success && (
-          <Alert severity="success" sx={{ mb: 3 }}>
-            Task created successfully
-          </Alert>
-        )}
         <Typography variant="h4" sx={{ mb: 3, color: "#333" }}>
           Add New Task
         </Typography>
         <form onSubmit={handleAddTask}>
           <Stack spacing={2}>
             <TextField
-              label="Task Title"
+              label="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -66,10 +61,12 @@ const AddTasks: React.FC = () => {
             <Button
               type="submit"
               variant="contained"
-              sx={{ backgroundColor: "#1C1678" }}
+              color="primary"
+              sx={{ fontWeight: 700, borderRadius: 2, py: 1 }}
             >
               Add Task
             </Button>
+            {success && <Alert severity="success">Task added successfully!</Alert>}
           </Stack>
         </form>
       </Box>

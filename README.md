@@ -13,6 +13,8 @@ SnapDone is a full-stack task management platform designed to help users organiz
 
 ## Features
 - User authentication (JWT-based)
+- Protected routes (dashboard, tasks, profile, settings)
+- Public landing page
 - Task management (add, complete, delete, restore)
 - User profile and settings
 - Responsive design
@@ -71,8 +73,8 @@ npm run dev
 - Built with React and TypeScript
 - Main folders:
   - `src/api/` – Axios API config
-  - `src/components/` – UI components
-  - `src/context/` – React context providers
+  - `src/components/` – UI components (including ProtectedRoute)
+  - `src/context/` – React context providers (AuthContext, ThemeContext)
   - `src/pages/` – Application pages
   - `src/services/` – API service layer
   - `src/assets/` – Static assets

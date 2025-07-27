@@ -31,10 +31,13 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-    document.documentElement.setAttribute(
-      "data-theme",
-      isDarkMode ? "dark" : "light",
-    );
+    if (isDarkMode) {
+      document.documentElement.style.background = "#181a1b";
+      document.documentElement.style.color = "#f8f9fa";
+    } else {
+      document.documentElement.style.background = "#f8f9fa";
+      document.documentElement.style.color = "#222";
+    }
   }, [isDarkMode]);
 
   const toggleTheme = () => {

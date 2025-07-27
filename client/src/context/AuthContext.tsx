@@ -19,6 +19,7 @@ export interface Task {
   lastUpdated: string;
   isDeleted: boolean;
   isCompleted: boolean;
+  isPinned?: boolean;
 }
 
 interface TaskContextType {
@@ -156,6 +157,7 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
         lastUpdated: now,
         isDeleted: false,
         isCompleted: false,
+        isPinned: false,
       },
     ]);
   };
@@ -168,11 +170,11 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
               ...task,
               ...updates,
               lastUpdated: new Date().toISOString(),
-              // If marking as complete and already complete, move to trash
               isDeleted:
                 updates.isCompleted === true && task.isCompleted === true
                   ? true
                   : (updates.isDeleted ?? task.isDeleted),
+              isPinned: updates.isPinned !== undefined ? updates.isPinned : task.isPinned,
             }
           : task,
       ),

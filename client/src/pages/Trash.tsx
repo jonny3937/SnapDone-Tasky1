@@ -32,21 +32,17 @@ const Trash: React.FC = () => {
           Items in trash will be deleted after 30 days.
         </Typography>
         {deletedTasks.length === 0 ? (
-          <Typography variant="body1" color="text.secondary">
-            No deleted tasks.
-          </Typography>
+          <Typography color="text.secondary">No items in trash.</Typography>
         ) : (
           deletedTasks.map((task) => (
             <Card key={task.id} sx={{ mb: 2 }}>
               <CardContent>
                 <Typography variant="h6">{task.title}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {task.description}
-                </Typography>
+                <Typography color="text.secondary">{task.description}</Typography>
               </CardContent>
               <CardActions>
                 <Button
-                  variant="text"
+                  size="small"
                   color="primary"
                   onClick={() => {
                     restoreTask(task.id);
@@ -57,7 +53,7 @@ const Trash: React.FC = () => {
                   Restore
                 </Button>
                 <Button
-                  variant="contained"
+                  size="small"
                   color="error"
                   startIcon={<DeleteIcon />}
                   onClick={() => deleteTask(task.id)}
