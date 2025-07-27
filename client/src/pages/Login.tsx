@@ -1,21 +1,37 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Box, Button, TextField, Typography, Alert, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  TextField,
+  Typography,
+  Stack,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import API from "../api/axios";
-import Layout from "../components/Layout";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import API from '../api/axios';
 
-interface LoginResponse {
-  token: string;
+type LoginResponse = {
   user: {
-    id: number;
+    id: string;
     username: string;
     email: string;
     avatar?: string;
-    firstName?: string;
-    lastName?: string;
+    firstName: string;
+    lastName: string;
   };
-}
+  token: string;
+};
+
+type ForgotPasswordResponse = {
+  message: string;
+};
 
 const Login: React.FC = () => {
   const [form, setForm] = useState({ user: "", password: "" });
@@ -27,7 +43,6 @@ const Login: React.FC = () => {
   const [forgotConfirmPassword, setForgotConfirmPassword] = useState("");
   const [forgotStatus, setForgotStatus] = useState<string | null>(null);
   const navigate = useNavigate();
-  const location = useLocation();
   const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +69,7 @@ const Login: React.FC = () => {
       };
       localStorage.setItem("token", data.token);
       login(userData);
-      const from = location.state?.from?.pathname || "/dashboard";
-      navigate(from, { replace: true });
+      navigate("/dashboard");
     } catch (err: any) {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
@@ -67,112 +81,228 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleForgotPassword = async () => {
-    setForgotStatus(null);
-    if (!forgotEmail || !forgotNewPassword || !forgotConfirmPassword) {
-      setForgotStatus("Please fill in all fields.");
-      return;
-    }
-    if (forgotNewPassword !== forgotConfirmPassword) {
-      setForgotStatus("Passwords do not match.");
-      return;
-    }
-    try {
-      await API.post("/api/auth/forgot-password", {
-        email: forgotEmail,
-        newPassword: forgotNewPassword,
-      });
-      setForgotStatus("Password reset successful. You can now log in.");
-    } catch (err: any) {
-      setForgotStatus("Failed to reset password. Please try again.");
-    }
-  };
-
   return (
-    <Layout currentPage="Login">
-      <Box sx={{ p: 3, maxWidth: 400, mx: "auto" }}>
-        <Typography variant="h4" sx={{ mb: 3, color: "#333" }}>
-          Login
+    <Box
+      minHeight="100vh"
+      sx={{
+        background: "#f3f6fb",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+      }}
+    >
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: 24,
+          left: 24,
+          zIndex: 10,
+          bgcolor: "green",
+          color: "#fff",
+          "&:hover": { bgcolor: "darkred" },
+        }}
+        onClick={() => navigate("/")}
+        aria-label="Back to landing"
+      >
+        <ArrowBackIcon />
+      </IconButton>
+      <Card
+        sx={{
+          background:
+            "linear-gradient(135deg,rgb(31, 13, 99) 0%,rgb(37, 43, 53) 100%)",
+          borderRadius: 5,
+          boxShadow: 6,
+          minWidth: 340,
+          maxWidth: 400,
+          width: "100%",
+          p: { xs: 3, md: 5 },
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: 700, mb: 4, color: "#eee", textAlign: "center" }}
+        >
+          Login to SnapDone
         </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Username or Email"
-            name="user"
-            value={form.user}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            value={form.password}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          {error && <Alert severity="error">{error}</Alert>}
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ width: "100%", color: "#eee" }}
+        >
+          {error && (
+            <Typography color="error" sx={{ mb: 2, textAlign: "center" }}>
+              {error}
+            </Typography>
+          )}
+          <Stack spacing={3} mb={2}>
+            <TextField
+              label="Username or Email"
+              name="user"
+              value={form.user}
+              onChange={handleChange}
+              fullWidth
+              required
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: { style: { color: "#fff" } },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 4,
+                  "& fieldset": { borderColor: "#fff" },
+                  "&:hover fieldset": { borderColor: "#fff" },
+                  "&.Mui-focused fieldset": { borderColor: "#fff" },
+                },
+                "& .MuiInputLabel-root": { color: "#fff" },
+              }}
+            />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              fullWidth
+              required
+              variant="outlined"
+              size="small"
+              slotProps={{
+                input: { style: { color: "#fff" } },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 4,
+                  "& fieldset": { borderColor: "#fff" },
+                  "&:hover fieldset": { borderColor: "#fff" },
+                  "&.Mui-focused fieldset": { borderColor: "#fff" },
+                },
+                "& .MuiInputLabel-root": { color: "#fff" },
+              }}
+            />
+            <Button
+              variant="text"
+              sx={{
+                color: "#5CB338",
+                alignSelf: "flex-end",
+                mt: -2,
+                mb: 1,
+                fontWeight: 700,
+              }}
+              onClick={() => {
+                setForgotOpen(true);
+                setForgotStatus(null);
+                setForgotEmail("");
+                setForgotNewPassword("");
+                setForgotConfirmPassword("");
+              }}
+            >
+              Forgot Password?
+            </Button>
+          </Stack>
           <Button
             type="submit"
             variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ fontWeight: 700, borderRadius: 2, py: 1, mt: 2 }}
+            sx={{
+              background: "#5CB338",
+              color: "#fff",
+              fontWeight: 700,
+              borderRadius: 2,
+              py: 1,
+              fontSize: 16,
+              px: 4,
+              alignSelf: "center",
+              display: "block",
+              mx: "auto",
+              "&:hover": { background: "#49a09d" },
+            }}
             disabled={loading}
-            startIcon={loading ? <CircularProgress size={20} /> : null}
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Loading..." : "Login"}
           </Button>
-        </form>
-        <Button
-          color="primary"
-          sx={{ mt: 2, textTransform: "none" }}
-          onClick={() => setForgotOpen(true)}
-        >
-          Forgot password?
-        </Button>
-        <Dialog open={forgotOpen} onClose={() => setForgotOpen(false)}>
-          <DialogTitle>Reset Password</DialogTitle>
-          <DialogContent>
-            <TextField
-              label="Email"
-              value={forgotEmail}
-              onChange={(e) => setForgotEmail(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="New Password"
-              type="password"
-              value={forgotNewPassword}
-              onChange={(e) => setForgotNewPassword(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Confirm Password"
-              type="password"
-              value={forgotConfirmPassword}
-              onChange={(e) => setForgotConfirmPassword(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            {forgotStatus && <Alert severity="info">{forgotStatus}</Alert>}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleForgotPassword} color="primary">
-              Reset
-            </Button>
-            <Button onClick={() => setForgotOpen(false)} color="secondary">
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    </Layout>
+        </Box>
+      </Card>
+      <Dialog open={forgotOpen} onClose={() => setForgotOpen(false)}>
+        <DialogTitle>Reset Password</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            type="email"
+            fullWidth
+            value={forgotEmail}
+            onChange={(e) => setForgotEmail(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="New Password"
+            type="password"
+            fullWidth
+            value={forgotNewPassword}
+            onChange={(e) => setForgotNewPassword(e.target.value)}
+            sx={{ mt: 2 }}
+          />
+          <TextField
+            margin="dense"
+            label="Confirm New Password"
+            type="password"
+            fullWidth
+            value={forgotConfirmPassword}
+            onChange={(e) => setForgotConfirmPassword(e.target.value)}
+            sx={{ mt: 2 }}
+          />
+          {forgotStatus && (
+            <Typography
+              sx={{ mt: 2 }}
+              color={forgotStatus.startsWith("Success") ? "green" : "error"}
+            >
+              {forgotStatus}
+            </Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setForgotOpen(false)}>Cancel</Button>
+          <Button
+            onClick={async () => {
+              setForgotStatus(null);
+              try {
+                const res = await API.post<ForgotPasswordResponse>(
+                  '/api/auth/reset-password',
+                  {
+                    email: forgotEmail,
+                    newPassword: forgotNewPassword,
+                    confirmPassword: forgotConfirmPassword,
+                  }
+                );
+                if (res.data && res.data.message) {
+                  setForgotStatus("Success! Your password has been reset. You can now log in.");
+                } else {
+                  setForgotStatus("Success! Your password has been reset. You can now log in.");
+                }
+              } catch (err: any) {
+                if (
+                  err.response &&
+                  err.response.data &&
+                  typeof err.response.data === 'object' &&
+                  'message' in err.response.data
+                ) {
+                  setForgotStatus((err.response.data as { message: string }).message);
+                } else {
+                  setForgotStatus("Network error. Please try again.");
+                }
+              }
+            }}
+            disabled={
+              !forgotEmail || !forgotNewPassword || !forgotConfirmPassword
+            }
+          >
+            Reset Password
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 };
 
