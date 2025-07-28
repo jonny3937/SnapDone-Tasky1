@@ -15,7 +15,7 @@ const Landing: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#000", 
+        backgroundColor: "#000",
         fontFamily: "Inter, sans-serif",
       }}
     >
@@ -50,7 +50,8 @@ const Landing: React.FC = () => {
             left: 0,
             width: "100%",
             height: "100%",
-            background: "linear-gradient(to bottom right, rgba(0,0,0,0.4), rgba(0,0,0,0.6))",
+            background:
+              "linear-gradient(to bottom right, rgba(0,0,0,0.4), rgba(0,0,0,0.6))",
             zIndex: 1,
           }}
         />
@@ -67,14 +68,20 @@ const Landing: React.FC = () => {
           boxShadow: {
             xs: "0 4px 12px rgba(0, 0, 0, 0.18)",
             sm: "0 8px 18px rgba(0, 0, 0, 0.22)",
-            md: "0 10px 25px rgba(0, 0, 0, 0.3)"
+            md: "0 10px 25px rgba(0, 0, 0, 0.3)",
           },
           textAlign: "center",
         }}
       >
         <Typography
           variant="h4"
-          sx={{ fontWeight: 800, color: "#1C1678", mb: 1, letterSpacing: 1.2, fontSize: { xs: "1.1rem", sm: "1.4rem", md: "1.6rem" } }}
+          sx={{
+            fontWeight: 800,
+            color: "#1C1678",
+            mb: 1,
+            letterSpacing: 1.2,
+            fontSize: { xs: "1.1rem", sm: "1.4rem", md: "1.6rem" },
+          }}
         >
           <span style={{ color: "#5CB338" }}>SNAP</span>
           <span style={{ color: "#1C1678" }}>DONE</span>
@@ -85,7 +92,12 @@ const Landing: React.FC = () => {
             fontWeight: 900,
             mb: 2,
             color: "#181c3a",
-            fontSize: { xs: "1.1rem", sm: "1.5rem", md: "2.1rem", lg: "2.5rem" },
+            fontSize: {
+              xs: "1.1rem",
+              sm: "1.5rem",
+              md: "2.1rem",
+              lg: "2.5rem",
+            },
             lineHeight: 1.2,
           }}
         >
@@ -102,7 +114,9 @@ const Landing: React.FC = () => {
             lineHeight: 1.6,
           }}
         >
-          Turn your tasks into achievements with <strong>SnapDone</strong>, the productivity platform that's about to become your favorite task-managing companion.
+          Turn your tasks into achievements with <strong>SnapDone</strong>, the
+          productivity platform that's about to become your favorite
+          task-managing companion.
         </Typography>
         <Button
           variant="contained"

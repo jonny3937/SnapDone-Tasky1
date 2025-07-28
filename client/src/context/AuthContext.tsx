@@ -174,7 +174,10 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
                 updates.isCompleted === true && task.isCompleted === true
                   ? true
                   : (updates.isDeleted ?? task.isDeleted),
-              isPinned: updates.isPinned !== undefined ? updates.isPinned : task.isPinned,
+              isPinned:
+                updates.isPinned !== undefined
+                  ? updates.isPinned
+                  : task.isPinned,
             }
           : task,
       ),

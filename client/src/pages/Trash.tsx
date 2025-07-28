@@ -38,7 +38,9 @@ const Trash: React.FC = () => {
             <Card key={task.id} sx={{ mb: 2 }}>
               <CardContent>
                 <Typography variant="h6">{task.title}</Typography>
-                <Typography color="text.secondary">{task.description}</Typography>
+                <Typography color="text.secondary">
+                  {task.description}
+                </Typography>
               </CardContent>
               <CardActions>
                 <Button

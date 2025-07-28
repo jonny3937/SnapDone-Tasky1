@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import API from '../api/axios';
+import API from "../api/axios";
 
 type LoginResponse = {
   user: {
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
       const payload = form.user.includes("@")
         ? { email: form.user, password: form.password }
         : { username: form.user, password: form.password };
-      const res = await API.post<LoginResponse>('/api/auth/login', payload);
+      const res = await API.post<LoginResponse>("/api/auth/login", payload);
       const data = res.data;
       const userData = {
         id: data.user.id,
@@ -115,7 +115,7 @@ const Login: React.FC = () => {
           boxShadow: {
             xs: 2,
             sm: 4,
-            md: 6
+            md: 6,
           },
           minWidth: { xs: 180, sm: 220, md: 260 },
           maxWidth: { xs: 260, sm: 320, md: 400 },
@@ -273,26 +273,32 @@ const Login: React.FC = () => {
               setForgotStatus(null);
               try {
                 const res = await API.post<ForgotPasswordResponse>(
-                  '/api/auth/reset-password',
+                  "/api/auth/reset-password",
                   {
                     email: forgotEmail,
                     newPassword: forgotNewPassword,
                     confirmPassword: forgotConfirmPassword,
-                  }
+                  },
                 );
                 if (res.data && res.data.message) {
-                  setForgotStatus("Success! Your password has been reset. You can now log in.");
+                  setForgotStatus(
+                    "Success! Your password has been reset. You can now log in.",
+                  );
                 } else {
-                  setForgotStatus("Success! Your password has been reset. You can now log in.");
+                  setForgotStatus(
+                    "Success! Your password has been reset. You can now log in.",
+                  );
                 }
               } catch (err: any) {
                 if (
                   err.response &&
                   err.response.data &&
-                  typeof err.response.data === 'object' &&
-                  'message' in err.response.data
+                  typeof err.response.data === "object" &&
+                  "message" in err.response.data
                 ) {
-                  setForgotStatus((err.response.data as { message: string }).message);
+                  setForgotStatus(
+                    (err.response.data as { message: string }).message,
+                  );
                 } else {
                   setForgotStatus("Network error. Please try again.");
                 }

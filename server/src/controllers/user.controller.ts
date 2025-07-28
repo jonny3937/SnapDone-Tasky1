@@ -76,7 +76,6 @@ export const updatePassword = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Current password is incorrect" });
     }
 
-    
     const passwordStrength = zxcvbn(newPassword);
     if (passwordStrength.score < 2) {
       return res.status(400).json({
@@ -141,7 +140,12 @@ export const getCurrentUser = async (req: Request, res: Response) => {
         avatar: true,
       },
     });
-    console.log("[getCurrentUser] Returning avatar:", user?.avatar, "for user:", userId);
+    console.log(
+      "[getCurrentUser] Returning avatar:",
+      user?.avatar,
+      "for user:",
+      userId,
+    );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

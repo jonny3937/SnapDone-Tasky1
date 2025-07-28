@@ -12,6 +12,7 @@ SnapDone is a full-stack task management platform designed to help users organiz
 ---
 
 ## Features
+
 - User authentication (JWT-based)
 - Protected routes (dashboard, tasks, profile, settings)
 - Public landing page
@@ -24,39 +25,50 @@ SnapDone is a full-stack task management platform designed to help users organiz
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v16+ recommended)
 - npm
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/jonny3937/SnapDone-Tasky1.git
 cd SnapDone
 ```
 
 ### 2. Install dependencies
+
 #### Client
+
 ```bash
 cd client
 npm install
 ```
+
 #### Server
+
 ```bash
 cd ../server
 npm install
 ```
 
 ### 3. Set up the database (Server)
+
 ```bash
 npx prisma migrate dev --name init
 ```
 
 ### 4. Run the applications
+
 #### Start the backend server
+
 ```bash
 cd server
 npm run start:dev
 ```
+
 #### Start the frontend client
+
 ```bash
 cd ../client
 npm run dev
@@ -70,6 +82,7 @@ npm run dev
 ## Folder Details
 
 ### client/
+
 - Built with React and TypeScript
 - Main folders:
   - `src/api/` – Axios API config
@@ -80,6 +93,7 @@ npm run dev
   - `src/assets/` – Static assets
 
 ### server/
+
 - Built with Node.js, Express, and Prisma
 - Main folders:
   - `src/controllers/` – Route controllers
@@ -88,6 +102,3 @@ npm run dev
   - `src/utils/` – Utility functions
   - `src/types/` – TypeScript types
   - `prisma/` – Prisma schema and migrations
-
-
-

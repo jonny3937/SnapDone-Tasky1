@@ -145,7 +145,9 @@ export const resetPassword = async (req: Request, res: Response) => {
     }
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      return res.status(404).json({ message: "User with this email not found." });
+      return res
+        .status(404)
+        .json({ message: "User with this email not found." });
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await prisma.user.update({

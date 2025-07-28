@@ -14,8 +14,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import API from '../api/axios';
-
+import API from "../api/axios";
 
 type RegisterResponse = {
   user: {
@@ -58,7 +57,10 @@ const SignUp: React.FC = () => {
         firstName: form.firstName,
         lastName: form.lastName,
       };
-      const res = await API.post<RegisterResponse>('/api/auth/register', payload);
+      const res = await API.post<RegisterResponse>(
+        "/api/auth/register",
+        payload,
+      );
       const data = res.data;
       const userData = {
         id: data.user.id,
@@ -139,10 +141,23 @@ const SignUp: React.FC = () => {
             textAlign: "center",
           }}
         >
-          <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5, fontSize: { xs: "0.85rem", sm: "1rem", md: "1.1rem" } }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              mb: 0.5,
+              fontSize: { xs: "0.85rem", sm: "1rem", md: "1.1rem" },
+            }}
+          >
             Welcome to SnapDone!
           </Typography>
-          <Typography sx={{ mb: 1, color: "rgba(255,255,255,0.85)", fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.85rem" } }}>
+          <Typography
+            sx={{
+              mb: 1,
+              color: "rgba(255,255,255,0.85)",
+              fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.85rem" },
+            }}
+          >
             Enter your personal details to use all of site features
           </Typography>
           <Button
@@ -182,7 +197,12 @@ const SignUp: React.FC = () => {
         >
           <Typography
             variant="h5"
-            sx={{ fontWeight: 700, mb: 0.5, color: "#eee", fontSize: { xs: "0.85rem", sm: "1rem", md: "1.1rem" } }}
+            sx={{
+              fontWeight: 700,
+              mb: 0.5,
+              color: "#eee",
+              fontSize: { xs: "0.85rem", sm: "1rem", md: "1.1rem" },
+            }}
           >
             Create Account
           </Typography>
@@ -197,7 +217,9 @@ const SignUp: React.FC = () => {
               <LinkedInIcon />
             </IconButton>
           </Stack>
-          <Typography sx={{ color: "#eee", fontSize: { xs: 9, sm: 10 }, mb: 0.5 }}>
+          <Typography
+            sx={{ color: "#eee", fontSize: { xs: 9, sm: 10 }, mb: 0.5 }}
+          >
             Use your email or Username for registration
           </Typography>
           <Box

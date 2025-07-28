@@ -66,7 +66,9 @@ const AddTasks: React.FC = () => {
             >
               Add Task
             </Button>
-            {success && <Alert severity="success">Task added successfully!</Alert>}
+            {success && (
+              <Alert severity="success">Task added successfully!</Alert>
+            )}
           </Stack>
         </form>
       </Box>

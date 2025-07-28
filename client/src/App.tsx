@@ -21,11 +21,46 @@ const App: React.FC = () => {
           <Header />
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/dashboard" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-            <Route path="/add-tasks" element={<ProtectedRoute><AddTasks /></ProtectedRoute>} />
-            <Route path="/completed-tasks" element={<ProtectedRoute><CompletedTasks /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path="/trash" element={<ProtectedRoute><Trash /></ProtectedRoute>} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add-tasks"
+              element={
+                <ProtectedRoute>
+                  <AddTasks />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/completed-tasks"
+              element={
+                <ProtectedRoute>
+                  <CompletedTasks />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/trash"
+              element={
+                <ProtectedRoute>
+                  <Trash />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
           </Routes>

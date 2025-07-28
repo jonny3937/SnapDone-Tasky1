@@ -112,10 +112,16 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
             {user?.firstName?.charAt(0) ||
               (user?.username ? user.username.charAt(0).toUpperCase() : "")}
           </Avatar>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: "0.8rem" }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: 600, fontSize: "0.8rem" }}
+          >
             {user?.firstName} {user?.lastName}
           </Typography>
-          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", fontSize: "0.7rem" }}>
+          <Typography
+            variant="body2"
+            sx={{ color: "rgba(255,255,255,0.7)", fontSize: "0.7rem" }}
+          >
             {user?.username
               ? user.username.charAt(0).toUpperCase() + user.username.slice(1)
               : ""}
@@ -133,7 +139,10 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
               <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
                 <DashboardIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Dashboard" primaryTypographyProps={{ fontSize: "0.8rem" }} />
+              <ListItemText
+                primary="Dashboard"
+                primaryTypographyProps={{ fontSize: "0.8rem" }}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -144,7 +153,10 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
               <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
                 <AddIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Add Tasks" primaryTypographyProps={{ fontSize: "0.8rem" }} />
+              <ListItemText
+                primary="Add Tasks"
+                primaryTypographyProps={{ fontSize: "0.8rem" }}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -155,7 +167,10 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
               <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
                 <CheckCircleIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Completed Tasks" primaryTypographyProps={{ fontSize: "0.8rem" }} />
+              <ListItemText
+                primary="Completed Tasks"
+                primaryTypographyProps={{ fontSize: "0.8rem" }}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -166,7 +181,10 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
               <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
                 <DeleteIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Trash" primaryTypographyProps={{ fontSize: "0.8rem" }} />
+              <ListItemText
+                primary="Trash"
+                primaryTypographyProps={{ fontSize: "0.8rem" }}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -177,7 +195,10 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
               <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
                 <PersonIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Profile" primaryTypographyProps={{ fontSize: "0.8rem" }} />
+              <ListItemText
+                primary="Profile"
+                primaryTypographyProps={{ fontSize: "0.8rem" }}
+              />
             </ListItemButton>
           </ListItem>
         </List>

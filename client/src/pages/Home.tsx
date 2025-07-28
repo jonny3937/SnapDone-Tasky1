@@ -23,8 +23,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import PushPinIcon from '@mui/icons-material/PushPin';
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import PushPinIcon from "@mui/icons-material/PushPin";
 
 const Home: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -87,15 +87,23 @@ const Home: React.FC = () => {
             <>
               {pinned.length > 0 && (
                 <>
-                  <Typography variant="h6" sx={{ mt: 2, mb: 1, color: '#d32f2f' }}>Urgent</Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ mt: 2, mb: 1, color: "#d32f2f" }}
+                  >
+                    Urgent
+                  </Typography>
                   <Box
                     sx={{
-                      display: 'grid',
-                      gridTemplateColumns: { xs: '1fr', lg: 'repeat(2, 650px)' },
+                      display: "grid",
+                      gridTemplateColumns: {
+                        xs: "1fr",
+                        lg: "repeat(2, 650px)",
+                      },
                       gap: 3,
-                      alignItems: 'stretch',
+                      alignItems: "stretch",
                       mb: 2,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                     }}
                   >
                     {pinned.map((task) => (
@@ -104,18 +112,29 @@ const Home: React.FC = () => {
                         sx={{
                           width: 650,
                           height: 220,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
                           transition: "transform 0.2s",
-                          position: 'relative',
+                          position: "relative",
                           "&:hover": { transform: "scale(1.03)" },
                         }}
                       >
-                     {/* my pin button here */}
+                        {/* my pin button here */}
                         <IconButton
-                          sx={{ position: 'absolute', top: 8, right: 8, zIndex: 2, color: task.isPinned ? '#d32f2f' : '#aaa', background: 'none', boxShadow: 'none', '&:hover': { color: '#b71c1c', background: 'none' } }}
-                          onClick={() => updateTask(task.id, { isPinned: !task.isPinned })}
+                          sx={{
+                            position: "absolute",
+                            top: 8,
+                            right: 8,
+                            zIndex: 2,
+                            color: task.isPinned ? "#d32f2f" : "#aaa",
+                            background: "none",
+                            boxShadow: "none",
+                            "&:hover": { color: "#b71c1c", background: "none" },
+                          }}
+                          onClick={() =>
+                            updateTask(task.id, { isPinned: !task.isPinned })
+                          }
                           size="small"
                         >
                           <PushPinIcon />
@@ -132,27 +151,45 @@ const Home: React.FC = () => {
                                 <Button
                                   size="small"
                                   onClick={() => setExpandedTaskId(task.id)}
-                                  sx={{ ml: 1, textTransform: "none", padding: 0 }}
+                                  sx={{
+                                    ml: 1,
+                                    textTransform: "none",
+                                    padding: 0,
+                                  }}
                                 >
                                   Read more
                                 </Button>
                               )}
                           </Typography>
-                          <Typography variant="caption" sx={{ color: "#000000" }}>
-                            Created: {new Date(task.dateCreated).toLocaleString()}
+                          <Typography
+                            variant="caption"
+                            sx={{ color: "#000000" }}
+                          >
+                            Created:{" "}
+                            {new Date(task.dateCreated).toLocaleString()}
                           </Typography>
                           <Typography
                             variant="caption"
                             sx={{ color: "#000000", ml: 2 }}
                           >
-                            Last Updated: {new Date(task.lastUpdated).toLocaleString()}
+                            Last Updated:{" "}
+                            {new Date(task.lastUpdated).toLocaleString()}
                           </Typography>
                         </CardContent>
                         <CardActions>
-                          <Stack direction="row" spacing={2} alignItems="center" gap={2}>
+                          <Stack
+                            direction="row"
+                            spacing={2}
+                            alignItems="center"
+                            gap={2}
+                          >
                             <Button
                               variant="text"
-                              sx={{ color: "#16C47F", textDecoration: "none", '&:hover': { backgroundColor: '#e6f9f0' } }}
+                              sx={{
+                                color: "#16C47F",
+                                textDecoration: "none",
+                                "&:hover": { backgroundColor: "#e6f9f0" },
+                              }}
                               onClick={() => {
                                 updateTask(task.id, { isCompleted: true });
                                 navigate("/completed-tasks");
@@ -162,7 +199,10 @@ const Home: React.FC = () => {
                             </Button>
                             <Button
                               variant="text"
-                              sx={{ color: "#1976d2", '&:hover': { backgroundColor: '#e3f0fc' } }}
+                              sx={{
+                                color: "#1976d2",
+                                "&:hover": { backgroundColor: "#e3f0fc" },
+                              }}
                               startIcon={<EditIcon />}
                               onClick={() => {
                                 setEditTask(task);
@@ -175,7 +215,11 @@ const Home: React.FC = () => {
                             </Button>
                             <Button
                               variant="text"
-                              sx={{ color: "#F93827", textDecoration: "none", '&:hover': { backgroundColor: '#fdecea' } }}
+                              sx={{
+                                color: "#F93827",
+                                textDecoration: "none",
+                                "&:hover": { backgroundColor: "#fdecea" },
+                              }}
                               startIcon={<DeleteIcon />}
                               onClick={() => {
                                 setTaskToDelete(task);
@@ -184,7 +228,18 @@ const Home: React.FC = () => {
                             >
                               Delete
                             </Button>
-                            <AutoAwesomeIcon sx={{ ml: 1, color: '#34699A', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#', transform: 'scale(1.2)' } }} />
+                            <AutoAwesomeIcon
+                              sx={{
+                                ml: 1,
+                                color: "#34699A",
+                                cursor: "pointer",
+                                transition: "0.2s",
+                                "&:hover": {
+                                  color: "#",
+                                  transform: "scale(1.2)",
+                                },
+                              }}
+                            />
                           </Stack>
                         </CardActions>
                       </Card>
@@ -194,15 +249,23 @@ const Home: React.FC = () => {
               )}
               {others.length > 0 && (
                 <>
-                  <Typography variant="h6" sx={{ mt: 4, mb: 1, color: '#000000' }}>Active Tasks</Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ mt: 4, mb: 1, color: "#000000" }}
+                  >
+                    Active Tasks
+                  </Typography>
                   <Box
                     sx={{
-                      display: 'grid',
-                      gridTemplateColumns: { xs: '1fr', lg: 'repeat(2, 650px)' },
+                      display: "grid",
+                      gridTemplateColumns: {
+                        xs: "1fr",
+                        lg: "repeat(2, 650px)",
+                      },
                       gap: 3,
-                      alignItems: 'stretch',
+                      alignItems: "stretch",
                       mb: 2,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                     }}
                   >
                     {others.map((task) => (
@@ -211,18 +274,28 @@ const Home: React.FC = () => {
                         sx={{
                           width: 650,
                           height: 220,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
                           transition: "transform 0.2s",
-                          position: 'relative',
+                          position: "relative",
                           "&:hover": { transform: "scale(1.03)" },
                         }}
                       >
-                    
-                       <IconButton
-                          sx={{ position: 'absolute', top: 8, right: 8, zIndex: 2, color: task.isPinned ? '#d32f2f' : '#aaa', background: 'none', boxShadow: 'none', '&:hover': { color: '#b71c1c', background: 'none' } }}
-                          onClick={() => updateTask(task.id, { isPinned: !task.isPinned })}
+                        <IconButton
+                          sx={{
+                            position: "absolute",
+                            top: 8,
+                            right: 8,
+                            zIndex: 2,
+                            color: task.isPinned ? "#d32f2f" : "#aaa",
+                            background: "none",
+                            boxShadow: "none",
+                            "&:hover": { color: "#b71c1c", background: "none" },
+                          }}
+                          onClick={() =>
+                            updateTask(task.id, { isPinned: !task.isPinned })
+                          }
                           size="small"
                         >
                           <PushPinIcon />
@@ -239,7 +312,11 @@ const Home: React.FC = () => {
                                 <Button
                                   size="small"
                                   onClick={() => setExpandedTaskId(task.id)}
-                                  sx={{ ml: 1, textTransform: "none", padding: 0 }}
+                                  sx={{
+                                    ml: 1,
+                                    textTransform: "none",
+                                    padding: 0,
+                                  }}
                                 >
                                   Read more
                                 </Button>
@@ -249,27 +326,45 @@ const Home: React.FC = () => {
                                 <Button
                                   size="small"
                                   onClick={() => setExpandedTaskId(null)}
-                                  sx={{ ml: 1, textTransform: "none", padding: 0 }}
+                                  sx={{
+                                    ml: 1,
+                                    textTransform: "none",
+                                    padding: 0,
+                                  }}
                                 >
                                   Show less
                                 </Button>
                               )}
                           </Typography>
-                          <Typography variant="caption" sx={{ color: "#000000" }}>
-                            Created: {new Date(task.dateCreated).toLocaleString()}
+                          <Typography
+                            variant="caption"
+                            sx={{ color: "#000000" }}
+                          >
+                            Created:{" "}
+                            {new Date(task.dateCreated).toLocaleString()}
                           </Typography>
                           <Typography
                             variant="caption"
                             sx={{ color: "#000000", ml: 2 }}
                           >
-                            Last Updated: {new Date(task.lastUpdated).toLocaleString()}
+                            Last Updated:{" "}
+                            {new Date(task.lastUpdated).toLocaleString()}
                           </Typography>
                         </CardContent>
                         <CardActions>
-                          <Stack direction="row" spacing={2} alignItems="center" gap={2}>
+                          <Stack
+                            direction="row"
+                            spacing={2}
+                            alignItems="center"
+                            gap={2}
+                          >
                             <Button
                               variant="text"
-                              sx={{ color: "#16C47F", textDecoration: "none", '&:hover': { backgroundColor: '#e6f9f0' } }}
+                              sx={{
+                                color: "#16C47F",
+                                textDecoration: "none",
+                                "&:hover": { backgroundColor: "#e6f9f0" },
+                              }}
                               onClick={() => {
                                 updateTask(task.id, { isCompleted: true });
                                 navigate("/completed-tasks");
@@ -279,7 +374,10 @@ const Home: React.FC = () => {
                             </Button>
                             <Button
                               variant="text"
-                              sx={{ color: "#1976d2", '&:hover': { backgroundColor: '#e3f0fc' } }}
+                              sx={{
+                                color: "#1976d2",
+                                "&:hover": { backgroundColor: "#e3f0fc" },
+                              }}
                               startIcon={<EditIcon />}
                               onClick={() => {
                                 setEditTask(task);
@@ -292,7 +390,11 @@ const Home: React.FC = () => {
                             </Button>
                             <Button
                               variant="text"
-                              sx={{ color: "#F93827", textDecoration: "none", '&:hover': { backgroundColor: '#fdecea' } }}
+                              sx={{
+                                color: "#F93827",
+                                textDecoration: "none",
+                                "&:hover": { backgroundColor: "#fdecea" },
+                              }}
                               startIcon={<DeleteIcon />}
                               onClick={() => {
                                 setTaskToDelete(task);
@@ -301,7 +403,18 @@ const Home: React.FC = () => {
                             >
                               Delete
                             </Button>
-                            <AutoAwesomeIcon sx={{ ml: 1, color: '#34699A', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#A3DC9A', transform: 'scale(1.2)' } }} />
+                            <AutoAwesomeIcon
+                              sx={{
+                                ml: 1,
+                                color: "#34699A",
+                                cursor: "pointer",
+                                transition: "0.2s",
+                                "&:hover": {
+                                  color: "#A3DC9A",
+                                  transform: "scale(1.2)",
+                                },
+                              }}
+                            />
                           </Stack>
                         </CardActions>
                       </Card>
@@ -391,32 +504,54 @@ const Home: React.FC = () => {
         maxWidth="md"
         fullWidth
         PaperProps={{
-          sx: { borderRadius: 4, p: 2, minHeight: 300, minWidth: 400, maxWidth: 700 }
+          sx: {
+            borderRadius: 4,
+            p: 2,
+            minHeight: 300,
+            minWidth: 400,
+            maxWidth: 700,
+          },
         }}
       >
         {(() => {
-          const task = tasks.find(t => t.id === expandedTaskId);
+          const task = tasks.find((t) => t.id === expandedTaskId);
           if (!task) return null;
           return (
-            <Box sx={{ position: 'relative', p: 2 }}>
+            <Box sx={{ position: "relative", p: 2 }}>
               <IconButton
                 onClick={() => setExpandedTaskId(null)}
-                sx={{ position: 'absolute', top: 8, right: 8, zIndex: 2 }}
+                sx={{ position: "absolute", top: 8, right: 8, zIndex: 2 }}
               >
-                <span style={{ fontSize: 24, fontWeight: 'bold' }}>&times;</span>
+                <span style={{ fontSize: 24, fontWeight: "bold" }}>
+                  &times;
+                </span>
               </IconButton>
-              <Typography variant="h4" sx={{ mb: 2 }}>{task.title}</Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>{task.description}</Typography>
+              <Typography variant="h4" sx={{ mb: 2 }}>
+                {task.title}
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                {task.description}
+              </Typography>
               <Typography variant="caption" sx={{ color: "#000000" }}>
                 Created: {new Date(task.dateCreated).toLocaleString()}
               </Typography>
               <Typography variant="caption" sx={{ color: "#000000", ml: 2 }}>
                 Last Updated: {new Date(task.lastUpdated).toLocaleString()}
               </Typography>
-              <Stack direction="row" spacing={2} alignItems="center" gap={2} sx={{ mt: 3 }}>
+              <Stack
+                direction="row"
+                spacing={2}
+                alignItems="center"
+                gap={2}
+                sx={{ mt: 3 }}
+              >
                 <Button
                   variant="text"
-                  sx={{ color: "#16C47F", textDecoration: "none", '&:hover': { backgroundColor: '#e6f9f0' } }}
+                  sx={{
+                    color: "#16C47F",
+                    textDecoration: "none",
+                    "&:hover": { backgroundColor: "#e6f9f0" },
+                  }}
                   onClick={() => {
                     updateTask(task.id, { isCompleted: true });
                     setExpandedTaskId(null);
@@ -427,7 +562,10 @@ const Home: React.FC = () => {
                 </Button>
                 <Button
                   variant="text"
-                  sx={{ color: "#1976d2", '&:hover': { backgroundColor: '#e3f0fc' } }}
+                  sx={{
+                    color: "#1976d2",
+                    "&:hover": { backgroundColor: "#e3f0fc" },
+                  }}
                   startIcon={<EditIcon />}
                   onClick={() => {
                     setEditTask(task);
@@ -441,7 +579,11 @@ const Home: React.FC = () => {
                 </Button>
                 <Button
                   variant="text"
-                  sx={{ color: "#F93827", textDecoration: "none", '&:hover': { backgroundColor: '#fdecea' } }}
+                  sx={{
+                    color: "#F93827",
+                    textDecoration: "none",
+                    "&:hover": { backgroundColor: "#fdecea" },
+                  }}
                   startIcon={<DeleteIcon />}
                   onClick={() => {
                     setTaskToDelete(task);
@@ -451,12 +593,19 @@ const Home: React.FC = () => {
                 >
                   Delete
                 </Button>
-                <AutoAwesomeIcon sx={{ ml: 1, color: '#FFA500', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#ffb84d', transform: 'scale(1.2)' } }} />
+                <AutoAwesomeIcon
+                  sx={{
+                    ml: 1,
+                    color: "#FFA500",
+                    cursor: "pointer",
+                    transition: "0.2s",
+                    "&:hover": { color: "#ffb84d", transform: "scale(1.2)" },
+                  }}
+                />
               </Stack>
             </Box>
           );
         })()}
-
       </Dialog>
     </Layout>
   );

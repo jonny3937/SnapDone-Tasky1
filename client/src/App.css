@@ -1,14 +1,15 @@
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: #f8f9fa;
   overflow-x: hidden;
 }
@@ -22,7 +23,6 @@ body {
   transform: scale(0.67);
   transform-origin: top left;
 
- 
   width: calc(100% / 0.67);
   height: calc(100% / 0.67);
 }

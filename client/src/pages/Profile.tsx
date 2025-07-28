@@ -65,7 +65,7 @@ const Profile: React.FC = () => {
       const token = localStorage.getItem("token");
       if (token && avatarUrl) {
         await updateAvatar(avatarUrl, token);
-        const latestProfile = await getProfile(token) as User;
+        const latestProfile = (await getProfile(token)) as User;
         updateUser(latestProfile);
         setForm({
           firstName: latestProfile.firstName || "",
@@ -91,14 +91,19 @@ const Profile: React.FC = () => {
       const token = localStorage.getItem("token");
       if (token) {
         await import("../services/userService").then(({ updateUserProfile }) =>
-          updateUserProfile({
-            username: form.username,
-            email: form.email,
-            firstName: form.firstName,
-            lastName: form.lastName,
-          }, token)
+          updateUserProfile(
+            {
+              username: form.username,
+              email: form.email,
+              firstName: form.firstName,
+              lastName: form.lastName,
+            },
+            token,
+          ),
         );
-        const latestProfile = await import("../services/userService").then(({ getProfile }) => getProfile(token)) as User;
+        const latestProfile = (await import("../services/userService").then(
+          ({ getProfile }) => getProfile(token),
+        )) as User;
         updateUser(latestProfile);
         setForm({
           firstName: latestProfile.firstName || "",
@@ -216,7 +221,11 @@ const Profile: React.FC = () => {
               >
                 Edit Profile
               </Button>
-              {feedback && <Alert severity="success" sx={{ mt: 2 }}>{feedback}</Alert>}
+              {feedback && (
+                <Alert severity="success" sx={{ mt: 2 }}>
+                  {feedback}
+                </Alert>
+              )}
             </>
           )}
         </Paper>
@@ -229,23 +238,27 @@ const Profile: React.FC = () => {
             label="Current Password"
             type="password"
             value={pwForm.current}
-            onChange={e => setPwForm({ ...pwForm, current: e.target.value })}
+            onChange={(e) => setPwForm({ ...pwForm, current: e.target.value })}
           />
           <TextField
             label="New Password"
             type="password"
             value={pwForm.new}
-            onChange={e => setPwForm({ ...pwForm, new: e.target.value })}
+            onChange={(e) => setPwForm({ ...pwForm, new: e.target.value })}
           />
           <TextField
             label="Confirm New Password"
             type="password"
             value={pwForm.confirm}
-            onChange={e => setPwForm({ ...pwForm, confirm: e.target.value })}
+            onChange={(e) => setPwForm({ ...pwForm, confirm: e.target.value })}
           />
           {pwError && <Alert severity="error">{pwError}</Alert>}
           {pwFeedback && <Alert severity="success">{pwFeedback}</Alert>}
-          <Button variant="contained" sx={{ bgcolor:"#1C1678"}} onClick={handlePwChange}>
+          <Button
+            variant="contained"
+            sx={{ bgcolor: "#1C1678" }}
+            onClick={handlePwChange}
+          >
             Change Password
           </Button>
         </Stack>

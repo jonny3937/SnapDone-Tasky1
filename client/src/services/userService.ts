@@ -29,7 +29,7 @@ export const updateAvatar = async (avatar: string, token: string) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
   if (response.status !== 200) {
     const error = response.data;

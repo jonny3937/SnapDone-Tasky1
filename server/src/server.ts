@@ -12,8 +12,8 @@ app.use(
   cors({
     origin: [
       "https://snapdone.netlify.app",
-      "http://localhost:5173", 
-      "https://snapdone-tasky1.onrender.com", 
+      "http://localhost:5173",
+      "https://snapdone-tasky1.onrender.com",
     ],
     credentials: true,
   }),
@@ -30,6 +30,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
-
-
