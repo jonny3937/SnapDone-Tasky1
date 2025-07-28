@@ -111,12 +111,16 @@ const Login: React.FC = () => {
         sx={{
           background:
             "linear-gradient(135deg,rgb(31, 13, 99) 0%,rgb(37, 43, 53) 100%)",
-          borderRadius: 5,
-          boxShadow: 6,
-          minWidth: 340,
-          maxWidth: 400,
+          borderRadius: { xs: 1.5, sm: 2, md: 3 },
+          boxShadow: {
+            xs: 2,
+            sm: 4,
+            md: 6
+          },
+          minWidth: { xs: 180, sm: 220, md: 260 },
+          maxWidth: { xs: 260, sm: 320, md: 400 },
           width: "100%",
-          p: { xs: 3, md: 5 },
+          p: { xs: 1, sm: 2, md: 2.5 },
         }}
       >
         <Typography
