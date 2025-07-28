@@ -23,7 +23,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PushPinIcon from '@mui/icons-material/PushPin';
 
 const Home: React.FC = () => {
@@ -184,7 +184,7 @@ const Home: React.FC = () => {
                             >
                               Delete
                             </Button>
-                            <TipsAndUpdatesIcon sx={{ ml: 1, color: '#FFA500', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#ffb84d', transform: 'scale(1.2)' } }} />
+                            <AutoAwesomeIcon sx={{ ml: 1, color: '#34699A', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#', transform: 'scale(1.2)' } }} />
                           </Stack>
                         </CardActions>
                       </Card>
@@ -301,7 +301,7 @@ const Home: React.FC = () => {
                             >
                               Delete
                             </Button>
-                            <TipsAndUpdatesIcon sx={{ ml: 1, color: '#FFA500', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#ffb84d', transform: 'scale(1.2)' } }} />
+                            <AutoAwesomeIcon sx={{ ml: 1, color: '#34699A', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#A3DC9A', transform: 'scale(1.2)' } }} />
                           </Stack>
                         </CardActions>
                       </Card>
@@ -451,11 +451,12 @@ const Home: React.FC = () => {
                 >
                   Delete
                 </Button>
-                <TipsAndUpdatesIcon sx={{ ml: 1, color: '#FFA500', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#ffb84d', transform: 'scale(1.2)' } }} />
+                <AutoAwesomeIcon sx={{ ml: 1, color: '#FFA500', cursor: 'pointer', transition: '0.2s', '&:hover': { color: '#ffb84d', transform: 'scale(1.2)' } }} />
               </Stack>
             </Box>
           );
         })()}
+
       </Dialog>
     </Layout>
   );

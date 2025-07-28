@@ -27,7 +27,7 @@ import {
   CheckCircle as CheckCircleIcon,
 } from "@mui/icons-material";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -86,12 +86,12 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
           },
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ minHeight: 32, px: 0.5 }}>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ fontWeight: 700 }}
+            sx={{ fontWeight: 700, fontSize: "0.8rem" }}
           >
             SnapDone
           </Typography>
@@ -100,22 +100,22 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
 
         <Box
           sx={{
-            p: 2,
+            p: 0.5,
             textAlign: "center",
             display: sidebarOpen ? "block" : "none",
           }}
         >
           <Avatar
             src={user?.avatar}
-            sx={{ width: 64, height: 64, mx: "auto", mb: 1 }}
+            sx={{ width: 32, height: 32, mx: "auto", mb: 0.25 }}
           >
             {user?.firstName?.charAt(0) ||
               (user?.username ? user.username.charAt(0).toUpperCase() : "")}
           </Avatar>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: "0.8rem" }}>
             {user?.firstName} {user?.lastName}
           </Typography>
-          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", fontSize: "0.7rem" }}>
             {user?.username
               ? user.username.charAt(0).toUpperCase() + user.username.slice(1)
               : ""}
@@ -127,73 +127,74 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
         <List sx={{ flexGrow: 1, display: sidebarOpen ? "block" : "none" }}>
           <ListItem disablePadding>
             <ListItemButton
-              sx={getButtonStyle("Dashboard")}
+              sx={{ ...getButtonStyle("Dashboard"), py: 0.3 }}
               onClick={() => handleNavigation("Dashboard")}
             >
-              <ListItemIcon sx={{ color: "#fff" }}>
-                <DashboardIcon />
+              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
+                <DashboardIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Dashboard" />
+              <ListItemText primary="Dashboard" primaryTypographyProps={{ fontSize: "0.8rem" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton
-              sx={getButtonStyle("Add Tasks")}
+              sx={{ ...getButtonStyle("Add Tasks"), py: 0.3 }}
               onClick={() => handleNavigation("Add Tasks")}
             >
-              <ListItemIcon sx={{ color: "#fff" }}>
-                <AddIcon />
+              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
+                <AddIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Add Tasks" />
+              <ListItemText primary="Add Tasks" primaryTypographyProps={{ fontSize: "0.8rem" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton
-              sx={getButtonStyle("Completed Tasks")}
+              sx={{ ...getButtonStyle("Completed Tasks"), py: 0.3 }}
               onClick={() => handleNavigation("Completed Tasks")}
             >
-              <ListItemIcon sx={{ color: "#fff" }}>
-                <CheckCircleIcon />
+              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
+                <CheckCircleIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Completed Tasks" />
+              <ListItemText primary="Completed Tasks" primaryTypographyProps={{ fontSize: "0.8rem" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton
-              sx={getButtonStyle("Trash")}
+              sx={{ ...getButtonStyle("Trash"), py: 0.3 }}
               onClick={() => handleNavigation("Trash")}
             >
-              <ListItemIcon sx={{ color: "#fff" }}>
-                <DeleteIcon />
+              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
+                <DeleteIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Trash" />
+              <ListItemText primary="Trash" primaryTypographyProps={{ fontSize: "0.8rem" }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton
-              sx={getButtonStyle("Profile")}
+              sx={{ ...getButtonStyle("Profile"), py: 0.3 }}
               onClick={() => handleNavigation("Profile")}
             >
-              <ListItemIcon sx={{ color: "#fff" }}>
-                <PersonIcon />
+              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
+                <PersonIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Profile" />
+              <ListItemText primary="Profile" primaryTypographyProps={{ fontSize: "0.8rem" }} />
             </ListItemButton>
           </ListItem>
         </List>
 
-        <Box sx={{ p: 2, display: sidebarOpen ? "block" : "none" }}>
+        <Box sx={{ p: 0.5, display: sidebarOpen ? "block" : "none" }}>
           <Button
             variant="contained"
             fullWidth
-            startIcon={<LogoutIcon />}
+            startIcon={<LogoutIcon fontSize="small" />}
             onClick={handleLogout}
             sx={{
               bgcolor: "#5CB338",
               color: "#fff",
               fontWeight: 700,
               borderRadius: 2,
-              py: 1,
+              py: 0.5,
+              fontSize: "0.8rem",
               "&:hover": { bgcolor: "#49a09d" },
             }}
           >
