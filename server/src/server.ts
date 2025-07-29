@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
 import postRoutes from "./routes/post.routes";
 import userRoutes from "./routes/user.routes";
+import genaiRoutes from "./routes/genaiRoutes";
+
 
 dotenv.config();
 
@@ -23,6 +25,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/genai", genaiRoutes);
 
 app.get("/", (_, res) => res.send("API is running..."));
 

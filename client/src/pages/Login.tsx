@@ -85,11 +85,11 @@ const Login: React.FC = () => {
     <Box
       minHeight="100vh"
       sx={{
-        background: "#f3f6fb",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
+        background: 'linear-gradient(135deg, #1C1678 0%, #5CB338 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
       }}
     >
       <IconButton
@@ -223,7 +223,19 @@ const Login: React.FC = () => {
             }}
             disabled={loading}
           >
-            {loading ? "Loading..." : "Login"}
+            {loading ?
+            <Typography
+            sx={{
+              color:'#D25D5D'
+            }}
+            >
+              Loading...
+
+            </Typography>
+            
+            
+            
+            : "Login"}
           </Button>
         </Box>
       </Card>

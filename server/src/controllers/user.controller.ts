@@ -58,7 +58,6 @@ export const updatePassword = async (req: Request, res: Response) => {
     const { currentPassword, newPassword } = req.body;
     const userId = (req as any).user.userId;
 
-    // Get current user
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
@@ -67,7 +66,6 @@ export const updatePassword = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Verify current password
     const isValidPassword = await bcrypt.compare(
       currentPassword,
       user.password,
@@ -106,8 +104,6 @@ export const updateAvatar = async (req: Request, res: Response) => {
     const { avatar } = req.body;
     const userId = (req as any).user.userId;
 
-    console.log("[updateAvatar] Saving avatar:", avatar, "for user:", userId);
-
     const user = await prisma.user.update({
       where: { id: userId },
       data: { avatar },
@@ -140,12 +136,6 @@ export const getCurrentUser = async (req: Request, res: Response) => {
         avatar: true,
       },
     });
-    console.log(
-      "[getCurrentUser] Returning avatar:",
-      user?.avatar,
-      "for user:",
-      userId,
-    );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

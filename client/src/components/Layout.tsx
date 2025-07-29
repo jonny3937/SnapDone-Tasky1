@@ -75,14 +75,15 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
           width: sidebarOpen ? drawerWidth : 0,
           flexShrink: 0,
           transition: "width 0.3s ease",
-          "& .MuiDrawer-paper": {
+          '& .MuiDrawer-paper': {
             width: sidebarOpen ? drawerWidth : 0,
-            boxSizing: "border-box",
-            background:
-              "linear-gradient(135deg, rgb(31, 13, 99) 0%, rgb(37, 43, 53) 100%)",
-            color: "#fff",
-            overflow: "hidden",
-            transition: "width 0.3s ease",
+            boxSizing: 'border-box',
+            background: 'linear-gradient(180deg, #1C1678 0%, #2C225C 100%)',
+            color: '#fff',
+            overflow: 'hidden',
+            boxShadow: '2px 0 16px 0 rgba(44,34,92,0.12)',
+            borderRight: 'none',
+            transition: 'width 0.3s ease',
           },
         }}
       >
@@ -91,135 +92,103 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ fontWeight: 700, fontSize: "0.8rem" }}
+            sx={{ fontWeight: 900, fontSize: '1rem', letterSpacing: 1.2, color: '#fff' }}
           >
             SnapDone
           </Typography>
         </Toolbar>
-        <Divider sx={{ borderColor: "rgba(255,255,255,0.2)" }} />
-
+        <Divider sx={{ borderColor: 'rgba(255,255,255,0.12)' }} />
         <Box
           sx={{
             p: 0.5,
-            textAlign: "center",
-            display: sidebarOpen ? "block" : "none",
+            textAlign: 'center',
+            display: sidebarOpen ? 'block' : 'none',
           }}
         >
           <Avatar
             src={user?.avatar}
-            sx={{ width: 32, height: 32, mx: "auto", mb: 0.25 }}
+            sx={{
+              width: 48,
+              height: 48,
+              mx: 'auto',
+              mb: 0.5,
+              border: '3px solid #5CB338',
+              boxShadow: 2,
+              bgcolor: '#fff',
+              color: '#1C1678',
+              fontWeight: 700,
+              fontSize: 24,
+            }}
           >
-            {user?.firstName?.charAt(0) ||
-              (user?.username ? user.username.charAt(0).toUpperCase() : "")}
+            {user?.firstName?.charAt(0) || (user?.username ? user.username.charAt(0).toUpperCase() : "")}
           </Avatar>
           <Typography
             variant="subtitle1"
-            sx={{ fontWeight: 600, fontSize: "0.8rem" }}
+            sx={{ fontWeight: 700, fontSize: '1rem', color: '#fff', lineHeight: 1.1 }}
           >
             {user?.firstName} {user?.lastName}
           </Typography>
           <Typography
             variant="body2"
-            sx={{ color: "rgba(255,255,255,0.7)", fontSize: "0.7rem" }}
+            sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem', mt: -0.5 }}
           >
-            {user?.username
-              ? user.username.charAt(0).toUpperCase() + user.username.slice(1)
-              : ""}
+            {user?.username ? user.username.charAt(0).toUpperCase() + user.username.slice(1) : ""}
           </Typography>
         </Box>
-
-        <Divider sx={{ borderColor: "rgba(255,255,255,0.2)" }} />
-
-        <List sx={{ flexGrow: 1, display: sidebarOpen ? "block" : "none" }}>
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{ ...getButtonStyle("Dashboard"), py: 0.3 }}
-              onClick={() => handleNavigation("Dashboard")}
-            >
-              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
-                <DashboardIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText
-                primary="Dashboard"
-                primaryTypographyProps={{ fontSize: "0.8rem" }}
-              />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{ ...getButtonStyle("Add Tasks"), py: 0.3 }}
-              onClick={() => handleNavigation("Add Tasks")}
-            >
-              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
-                <AddIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText
-                primary="Add Tasks"
-                primaryTypographyProps={{ fontSize: "0.8rem" }}
-              />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{ ...getButtonStyle("Completed Tasks"), py: 0.3 }}
-              onClick={() => handleNavigation("Completed Tasks")}
-            >
-              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
-                <CheckCircleIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText
-                primary="Completed Tasks"
-                primaryTypographyProps={{ fontSize: "0.8rem" }}
-              />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{ ...getButtonStyle("Trash"), py: 0.3 }}
-              onClick={() => handleNavigation("Trash")}
-            >
-              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
-                <DeleteIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText
-                primary="Trash"
-                primaryTypographyProps={{ fontSize: "0.8rem" }}
-              />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{ ...getButtonStyle("Profile"), py: 0.3 }}
-              onClick={() => handleNavigation("Profile")}
-            >
-              <ListItemIcon sx={{ color: "#fff", minWidth: 24 }}>
-                <PersonIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText
-                primary="Profile"
-                primaryTypographyProps={{ fontSize: "0.8rem" }}
-              />
-            </ListItemButton>
-          </ListItem>
+        <Divider sx={{ borderColor: 'rgba(255,255,255,0.12)' }} />
+        <List sx={{ flexGrow: 1, display: sidebarOpen ? 'block' : 'none', mt: 1 }}>
+          {[{ label: 'Dashboard', icon: <DashboardIcon fontSize="small" /> },
+            { label: 'Add Tasks', icon: <AddIcon fontSize="small" /> },
+            { label: 'Completed Tasks', icon: <CheckCircleIcon fontSize="small" /> },
+            { label: 'Trash', icon: <DeleteIcon fontSize="small" /> },
+            { label: 'Profile', icon: <PersonIcon fontSize="small" /> }].map(({ label, icon }) => (
+            <ListItem disablePadding key={label}>
+              <ListItemButton
+                sx={{
+                  ...getButtonStyle(label),
+                  py: 0.6,
+                  borderRadius: 2,
+                  mx: 1,
+                  mb: 0.5,
+                  transition: 'background 0.18s, box-shadow 0.18s',
+                  boxShadow: currentPage === label ? '0 2px 10px 0 rgba(92,179,56,0.10)' : 'none',
+                  '&:hover': {
+                    bgcolor: 'rgba(92,179,56,0.10)',
+                    boxShadow: '0 2px 10px 0 rgba(92,179,56,0.14)',
+                  },
+                }}
+                onClick={() => handleNavigation(label)}
+              >
+                <ListItemIcon sx={{ color: '#fff', minWidth: 24 }}>{icon}</ListItemIcon>
+                <ListItemText
+                  primary={label}
+                  primaryTypographyProps={{ fontSize: '0.95rem', fontWeight: 600 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
-
-        <Box sx={{ p: 0.5, display: sidebarOpen ? "block" : "none" }}>
+        <Box sx={{ p: 1.5, display: sidebarOpen ? 'block' : 'none', mt: 2 }}>
           <Button
             variant="contained"
             fullWidth
             startIcon={<LogoutIcon fontSize="small" />}
             onClick={handleLogout}
             sx={{
-              bgcolor: "#5CB338",
-              color: "#fff",
-              fontWeight: 700,
+              bgcolor: '#5CB338',
+              color: '#fff',
+              fontWeight: 800,
               borderRadius: 2,
-              py: 0.5,
-              fontSize: "0.8rem",
-              "&:hover": { bgcolor: "#49a09d" },
+              py: 1.1,
+              fontSize: '1rem',
+              letterSpacing: 1,
+              boxShadow: '0 2px 12px 0 rgba(92,179,56,0.18)',
+              mt: 2,
+              '&:hover': { bgcolor: '#4AA43A', boxShadow: '0 4px 18px 0 rgba(92,179,56,0.28)' },
+              transition: 'all 0.18s',
             }}
           >
-            Logout
+            LOGOUT
           </Button>
         </Box>
       </Drawer>
@@ -231,13 +200,18 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
         <AppBar
           position="static"
           sx={{
-            bgcolor: "#fff",
-            color: "#333",
-            boxShadow: "none",
-            borderBottom: "1px solid #e0e0e0",
+            bgcolor: '#fff',
+            color: '#1C1678',
+            boxShadow: '0 2px 12px 0 rgba(44,34,92,0.04)',
+            borderBottom: '1px solid #e0e0e0',
+            borderRadius: '0 0 16px 16px',
+            height: 58,
+            display: 'flex',
+            justifyContent: 'center',
+            px: { xs: 1, sm: 3 },
           }}
         >
-          <Toolbar>
+          <Toolbar sx={{ minHeight: 58, px: { xs: 1, sm: 2 }, width: '100%' }}>
             <IconButton
               color="inherit"
               aria-label="toggle sidebar"
@@ -247,7 +221,19 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{
+                flexGrow: 1,
+                fontWeight: 900,
+                fontSize: { xs: '1.1rem', sm: '1.4rem' },
+                textAlign: 'center',
+                letterSpacing: 1.2,
+                color: '#1C1678',
+                textShadow: '0 1px 2px #f3f6fb',
+              }}
+            >
               {currentPage}
             </Typography>
           </Toolbar>

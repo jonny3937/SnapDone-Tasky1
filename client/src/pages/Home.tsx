@@ -39,6 +39,40 @@ const Home: React.FC = () => {
   const [expandedTaskId, setExpandedTaskId] = useState<number | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+  const [stepsDialogOpen, setStepsDialogOpen] = useState(false);
+  const [generatedSteps, setGeneratedSteps] = useState<string>("");
+  const [loadingSteps, setLoadingSteps] = useState(false);
+  const [stepsError, setStepsError] = useState<string>("");
+
+  const generateTaskSteps = async (taskTitle: string, taskDescription: string) => {
+    setLoadingSteps(true);
+    setStepsError("");
+    setStepsDialogOpen(true);
+    
+    try {
+      const response = await fetch('/api/genai/generate-steps', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          task: `${taskTitle}: ${taskDescription}` 
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate steps');
+      }
+
+      const data = await response.json();
+      setGeneratedSteps(data.steps);
+    } catch (error) {
+      console.error('Error generating steps:', error);
+      setStepsError('Failed to generate task steps. Please try again.');
+    } finally {
+      setLoadingSteps(false);
+    }
+  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -239,6 +273,7 @@ const Home: React.FC = () => {
                                   transform: "scale(1.2)",
                                 },
                               }}
+                              onClick={() => generateTaskSteps(task.title, task.description)}
                             />
                           </Stack>
                         </CardActions>
@@ -406,14 +441,12 @@ const Home: React.FC = () => {
                             <AutoAwesomeIcon
                               sx={{
                                 ml: 1,
-                                color: "#34699A",
+                                color: "#FFA500",
                                 cursor: "pointer",
                                 transition: "0.2s",
-                                "&:hover": {
-                                  color: "#A3DC9A",
-                                  transform: "scale(1.2)",
-                                },
+                                "&:hover": { color: "#ffb84d", transform: "scale(1.2)" },
                               }}
+                              onClick={() => generateTaskSteps(task.title, task.description)}
                             />
                           </Stack>
                         </CardActions>
@@ -601,11 +634,77 @@ const Home: React.FC = () => {
                     transition: "0.2s",
                     "&:hover": { color: "#ffb84d", transform: "scale(1.2)" },
                   }}
+                  onClick={() => generateTaskSteps(task.title, task.description)}
                 />
               </Stack>
             </Box>
           );
         })()}
+      </Dialog>
+      <Dialog
+        open={stepsDialogOpen}
+        onClose={() => setStepsDialogOpen(false)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 4,
+            p: 2,
+            minHeight: 300,
+            minWidth: 400,
+            maxWidth: 700,
+          },
+        }}
+      >
+        <DialogTitle>Task Steps</DialogTitle>
+        <DialogContent>
+          {loadingSteps ? (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 3 }}>
+              <Typography variant="body1">
+                Generating steps...
+              </Typography>
+            </Box>
+          ) : stepsError ? (
+            <Typography variant="body1" sx={{ color: "error.main", py: 2 }}>
+              {stepsError}
+            </Typography>
+          ) : (
+            <Box sx={{ py: 1 }}>
+              {generatedSteps.split(/\d+\.\s/).filter(step => step.trim()).map((step, index) => (
+                <Card 
+                  key={index} 
+                  sx={{ 
+                    mb: 2, 
+                    p: 2,
+                    backgroundColor: '#f8f9fa',
+                    border: '1px solid #e9ecef',
+                    borderRadius: 2,
+                    '&:hover': {
+                      backgroundColor: '#f1f3f4'
+                    }
+                  }}
+                >
+                  <Typography 
+                    variant="body1" 
+                    sx={{ 
+                      lineHeight: 1.6,
+                      fontSize: '1rem',
+                      color: '#444',
+                      fontWeight: 500
+                    }}
+                  >
+                    <strong>{index + 1}.</strong> {step.trim()}
+                  </Typography>
+                </Card>
+              ))}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setStepsDialogOpen(false)} color="secondary">
+            Close
+          </Button>
+        </DialogActions>
       </Dialog>
     </Layout>
   );

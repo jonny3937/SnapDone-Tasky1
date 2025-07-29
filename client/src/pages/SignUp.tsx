@@ -88,11 +88,11 @@ const SignUp: React.FC = () => {
     <Box
       minHeight="100vh"
       sx={{
-        background: "#f3f6fb",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
+        background: 'linear-gradient(135deg, #1C1678 0%, #5CB338 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
       }}
     >
       <IconButton
@@ -376,8 +376,20 @@ const SignUp: React.FC = () => {
                 alignSelf: "center",
               }}
               disabled={loading}
+              
             >
-              {loading ? "Registering..." : "Register"}
+              {loading ?
+               <Typography
+                          sx={{
+                            color:'#D25D5D'
+                          }}
+                          >
+                            Registering...
+              
+                          </Typography>
+              
+              
+              : "Register" }
             </Button>
           </Box>
         </Box>

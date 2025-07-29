@@ -150,32 +150,57 @@ const Profile: React.FC = () => {
 
   return (
     <Layout currentPage="Profile">
-      <Box sx={{ p: 3, maxWidth: 600, mx: "auto" }}>
-        <Paper sx={{ p: 4, textAlign: "center", mb: 4 }}>
+      <Box
+        sx={{
+          p: { xs: 1, sm: 2, md: 3 },
+          maxWidth: 600,
+          mx: "auto",
+          width: "100%",
+        }}
+      >
+        <Paper
+          elevation={4}
+          sx={{
+            p: { xs: 2, sm: 4 },
+            textAlign: "center",
+            mb: 4,
+            borderRadius: { xs: 2, sm: 3 },
+            boxShadow: { xs: 2, sm: 6 },
+          }}
+        >
           {editMode ? (
-            <Stack spacing={2}>
+            <Stack spacing={2} alignItems="center">
               <AvatarUpload
                 onUpload={handleAvatarUpload}
                 currentAvatar={form.avatar}
               />
-              <TextField
-                label="First Name"
-                name="firstName"
-                value={form.firstName}
-                onChange={handleChange}
-              />
-              <TextField
-                label="Last Name"
-                name="lastName"
-                value={form.lastName}
-                onChange={handleChange}
-              />
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                sx={{ width: "100%" }}
+              >
+                <TextField
+                  label="First Name"
+                  name="firstName"
+                  value={form.firstName}
+                  onChange={handleChange}
+                  fullWidth
+                />
+                <TextField
+                  label="Last Name"
+                  name="lastName"
+                  value={form.lastName}
+                  onChange={handleChange}
+                  fullWidth
+                />
+              </Stack>
               <TextField
                 label="Username"
                 name="username"
                 value={form.username}
                 onChange={handleChange}
                 required
+                fullWidth
               />
               <TextField
                 label="Email"
@@ -183,30 +208,42 @@ const Profile: React.FC = () => {
                 value={form.email}
                 onChange={handleChange}
                 required
+                fullWidth
               />
-              {error && <Alert severity="error">{error}</Alert>}
+              {error && <Alert severity="error" sx={{ width: "100%" }}>{error}</Alert>}
               <Stack direction="row" spacing={2} justifyContent="center">
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleSave}
+                  sx={{ minWidth: 100 }}
                 >
                   Save
                 </Button>
-                <Button variant="outlined" onClick={handleCancel}>
+                <Button variant="outlined" onClick={handleCancel} sx={{ minWidth: 100 }}>
                   Cancel
                 </Button>
               </Stack>
             </Stack>
           ) : (
-            <>
+            <Stack spacing={2} alignItems="center">
               <Avatar
                 src={form.avatar}
-                sx={{ width: 100, height: 100, mx: "auto", mb: 2 }}
+                sx={{
+                  width: { xs: 80, sm: 100 },
+                  height: { xs: 80, sm: 100 },
+                  mx: "auto",
+                  mb: 1,
+                  border: "3px solid #1C1678",
+                  boxShadow: 2,
+                  fontSize: 38,
+                  bgcolor: "#fff",
+                  color: "#1C1678",
+                }}
               >
                 {form.firstName?.charAt(0) || form.username.charAt(0)}
               </Avatar>
-              <Typography variant="subtitle1" sx={{ color: "#666", mb: 1 }}>
+              <Typography variant="subtitle1" sx={{ color: "#666", mb: 0 }}>
                 @{user.username}
               </Typography>
               <Typography variant="body1">{user.email}</Typography>
@@ -217,47 +254,77 @@ const Profile: React.FC = () => {
                 variant="outlined"
                 startIcon={<EditIcon />}
                 onClick={() => setEditMode(true)}
-                sx={{ mt: 2 }}
+                sx={{
+                  mt: 2,
+                  borderRadius: 2,
+                  fontWeight: 600,
+                  px: 3,
+                  color: "#1C1678",
+                  borderColor: "#1C1678",
+                  "&:hover": { bgcolor: "#f3f3fa" },
+                }}
               >
                 Edit Profile
               </Button>
               {feedback && (
-                <Alert severity="success" sx={{ mt: 2 }}>
+                <Alert severity="success" sx={{ width: "100%" }}>
                   {feedback}
                 </Alert>
               )}
-            </>
+            </Stack>
           )}
         </Paper>
         <Divider sx={{ my: 4 }} />
-        <Typography variant="h6" sx={{ mb: 2 }}>
+        <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
           Change Password
         </Typography>
-        <Stack spacing={2} maxWidth={400} mx="auto">
+        <Stack
+          spacing={2}
+          maxWidth={400}
+          mx="auto"
+          sx={{
+            p: { xs: 1, sm: 2 },
+            bgcolor: "#fafbfc",
+            borderRadius: 2,
+            boxShadow: { xs: 1, sm: 3 },
+          }}
+        >
           <TextField
             label="Current Password"
             type="password"
             value={pwForm.current}
             onChange={(e) => setPwForm({ ...pwForm, current: e.target.value })}
+            fullWidth
           />
           <TextField
             label="New Password"
             type="password"
             value={pwForm.new}
             onChange={(e) => setPwForm({ ...pwForm, new: e.target.value })}
+            fullWidth
           />
           <TextField
             label="Confirm New Password"
             type="password"
             value={pwForm.confirm}
             onChange={(e) => setPwForm({ ...pwForm, confirm: e.target.value })}
+            fullWidth
           />
           {pwError && <Alert severity="error">{pwError}</Alert>}
           {pwFeedback && <Alert severity="success">{pwFeedback}</Alert>}
           <Button
             variant="contained"
-            sx={{ bgcolor: "#1C1678" }}
+            sx={{
+              bgcolor: "#1C1678",
+              fontWeight: 600,
+              borderRadius: 2,
+              px: 3,
+              py: 1,
+              fontSize: 16,
+              "&:hover": { bgcolor: "#140e4a" },
+            }}
             onClick={handlePwChange}
+            fullWidth
           >
             Change Password
           </Button>
